@@ -8,6 +8,7 @@ type User @entity {
 	id: ID!
 	proxy: Proxy
 	balance: BigInt!
+	chaiBalance: BigInt!
 }
 
 type Pot @entity {

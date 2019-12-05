@@ -11,6 +11,7 @@ export function handleCreated(event: Created): void {
 	if (!user) {
 		user = new User(owner.toHexString());
 		user.balance = new BigInt(0);
+		user.chaiBalance = new BigInt(0);
 	}
 	user.proxy = proxyAddress.toHexString();
 	user.save();

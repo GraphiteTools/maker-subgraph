@@ -50,6 +50,7 @@ export function handleJoin(call: JoinCall): void {
 	if (!user) {
 		user = new User(from.toHexString());
 		user.balance = new BigInt(0);
+		user.chaiBalance = new BigInt(0);
 	}
 	user.balance += wad;
 	user.save();
@@ -71,6 +72,7 @@ export function handleExit(call: ExitCall): void {
 	if (!user) {
 		user = new User(from.toHexString());
 		user.balance = new BigInt(0);
+		user.chaiBalance = new BigInt(0);
 	}
 	user.balance -= wad;
 	user.save();
