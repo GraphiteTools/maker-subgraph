@@ -1,0 +1,51 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: ProxyFactory
+    network: mainnet
+    source:
+      address: "0xA26e15C895EFc0616177B7c1e7270A4C7D51C997"
+      abi: ProxyFactory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - User
+        - Proxy
+      eventHandlers:
+        - event: Created(indexed address,indexed address,address,address)
+          handler: handleCreated
+      abis:
+        - name: ProxyFactory
+          file: ./abis/factory.json
+      file: ./src/factory.ts
+  - kind: ethereum/contract
+    name: Pot
+    network: mainnet
+    source:
+      address: "0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7"
+      abi: Pot
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - Pot
+        - User
+        - Proxy
+      callHandlers:
+        - function: file(bytes32,uint256)
+          handler: handleFile
+        - function: drip()
+          handler: handleDrip
+        - function: join(uint256)
+          handler: handleJoin
+        - function: exit(uint256)
+          handler: handleExit
+      abis:
+        - name: Pot
+          file: ./abis/pot.json
+      file: ./src/pot.ts

@@ -1,0 +1,17 @@
+type Proxy @entity {
+	id: ID!
+	user: User!
+	balance: BigInt!
+}
+
+type User @entity {
+	id: ID!
+	proxy: Proxy
+	balance: BigInt!
+}
+
+type Pot @entity {
+	id: ID!
+	index: BigInt!
+	rate: BigInt!
+}
