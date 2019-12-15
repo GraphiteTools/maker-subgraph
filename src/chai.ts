@@ -38,6 +38,7 @@ export function handleTransfer(event: Transfer): void {
 	event.from = from;
 	event.to = to;
 	event.amount = wad;
+	event.save();
 
 	if (from != zeroAddress) {
 		let user = User.load(from.toHexString());
