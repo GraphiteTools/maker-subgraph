@@ -1,7 +1,7 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 
 import { FileCall, DripCall, JoinCall, ExitCall } from "../generated/Pot/Pot";
-import { Pot, User, Proxy } from "../generated/schema";
+import { Pot, User, Proxy, RateChangeEvent, PotDepositEvent } from "../generated/schema";
 
 export function handleFile(call: FileCall): void {
 	let blockNumber = call.block.number;
@@ -46,6 +46,9 @@ export function handleDrip(call: DripCall): void {
 }
 
 export function handleJoin(call: JoinCall): void {
+	let blockNumber = call.block.number;
+	let blockTime = call.block.timestamp;
+	let transactionHash = call.transaction.hash;
 	let from = call.from;
 	let wad = call.inputs.wad;
 
@@ -69,6 +72,13 @@ export function handleJoin(call: JoinCall): void {
 	}
 	user.balance += wad;
 	user.save();
+
+	let event = new PotDepositEvent(transactionHash.toHexString());
+	event.blockNumber = blockNumber;
+	event.blockTime = blockTime;
+	event.owner = from;
+	event.amount = wad;
+	event.save();
 }
 
 export function handleExit(call: ExitCall): void {

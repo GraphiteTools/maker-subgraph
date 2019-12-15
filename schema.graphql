@@ -25,7 +25,15 @@ type Chai @entity {
 
 type RateChangeEvent @entity {
 	id: ID!
-	blockNumber: Int!
-	blockTime: Int!
+	blockNumber: BigInt!
+	blockTime: BigInt!
 	rate: BigInt!
+}
+
+type PotDepositEvent @entity {
+	id: ID!
+	blockNumber: BigInt!
+	blockTime: BigInt!
+	owner: Bytes!
+	amount: BigInt!
 }
