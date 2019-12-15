@@ -37,3 +37,11 @@ type PotDepositEvent @entity {
 	owner: Bytes!
 	amount: BigInt!
 }
+
+type PotWithdrawEvent @entity {
+	id: ID!
+	blockNumber: BigInt!
+	blockTime: BigInt!
+	owner: Bytes!
+	amount: BigInt!
+}
