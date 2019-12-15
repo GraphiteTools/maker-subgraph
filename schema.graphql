@@ -15,4 +15,5 @@ type Pot @entity {
 	id: ID!
 	index: BigInt!
 	rate: BigInt!
+	supply: BigInt!
 }

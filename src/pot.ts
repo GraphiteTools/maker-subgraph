@@ -16,6 +16,7 @@ export function handleFile(call: FileCall): void {
 		pot = new Pot('0');
 		pot.index = new BigInt(0);
 		pot.rate = new BigInt(0);
+		pot.supply = new BigInt(0);
 	}
 	pot.rate = data;
 	pot.save();
@@ -29,6 +30,7 @@ export function handleDrip(call: DripCall): void {
 		pot = new Pot('0');
 		pot.index = new BigInt(0);
 		pot.rate = new BigInt(0);
+		pot.supply = new BigInt(0);
 	}
 	pot.index = chi;
 	pot.save();
@@ -37,6 +39,10 @@ export function handleDrip(call: DripCall): void {
 export function handleJoin(call: JoinCall): void {
 	let from = call.from;
 	let wad = call.inputs.wad;
+
+	let pot = Pot.load('0');
+	pot.supply += wad;
+	pot.save();
 
 	let proxy = Proxy.load(from.toHexString());
 	if (proxy) {
@@ -59,6 +65,10 @@ export function handleJoin(call: JoinCall): void {
 export function handleExit(call: ExitCall): void {
 	let from = call.from;
 	let wad = call.inputs.wad;
+
+	let pot = Pot.load('0');
+	pot.supply -= wad;
+	pot.save();
 
 	let proxy = Proxy.load(from.toHexString());
 	if (proxy) {
