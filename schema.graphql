@@ -45,3 +45,12 @@ type PotWithdrawEvent @entity {
 	owner: Bytes!
 	amount: BigInt!
 }
+
+type ChaiTransferEvent @entity {
+	id: ID!
+	blockNumber: BigInt!
+	blockTime: BigInt!
+	from: Bytes!
+	to: Bytes!
+	amount: BigInt!
+}
