@@ -4,6 +4,9 @@ import { FileCall, DripCall, JoinCall, ExitCall } from "../generated/Pot/Pot";
 import { Pot, User, Proxy } from "../generated/schema";
 
 export function handleFile(call: FileCall): void {
+	let blockNumber = call.block.number;
+	let blockTime = call.block.timestamp;
+	let transactionHash = call.transaction.hash;
 	let what = call.inputs.what;
 	let data = call.inputs.data;
 
@@ -20,6 +23,12 @@ export function handleFile(call: FileCall): void {
 	}
 	pot.rate = data;
 	pot.save();
+
+	let event = new RateChangeEvent(transactionHash.toHexString());
+	event.blockNumber = blockNumber;
+	event.blockTime = blockTime;
+	event.rate = data;
+	event.save();
 }
 
 export function handleDrip(call: DripCall): void {

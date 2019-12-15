@@ -22,3 +22,10 @@ type Chai @entity {
 	id: ID!
 	supply: BigInt!
 }
+
+type RateChangeEvent @entity {
+	id: ID!
+	blockNumber: Int!
+	blockTime: Int!
+	rate: BigInt!
+}
