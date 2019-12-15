@@ -17,3 +17,8 @@ type Pot @entity {
 	rate: BigInt!
 	supply: BigInt!
 }
+
+type Chai @entity {
+	id: ID!
+	supply: BigInt!
+}
