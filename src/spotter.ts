@@ -11,7 +11,7 @@ export function handleFile(call: FileCall): void {
 		return;
 	}
 
-	let collateral = new Collateral(ilk.toString());
+	let collateral = Collateral.load(ilk.toString());
 	if (!collateral) {
 		collateral = new Collateral(ilk.toString());
 
