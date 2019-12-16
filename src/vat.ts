@@ -1,6 +1,6 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 
-import { InitCall, FileCall } from "../generated/Jug/Jug";
+import { InitCall, FileCall, SlipCall, FrobCall, GrabCall } from "../generated/Jug/Jug";
 import { Jug, Collateral } from "../generated/schema";
 
 export function handleInit(call: InitCall): void {
