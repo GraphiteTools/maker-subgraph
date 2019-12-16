@@ -18,6 +18,17 @@ type Pot @entity {
 	supply: BigInt!
 }
 
+type Jug @entity {
+	id: ID!
+	baseRate: BigInt!
+	collaterals: [Collateral!]!
+}
+
+type Collateral @entity {
+	id: ID!
+	rate: BigInt!
+}
+
 type Chai @entity {
 	id: ID!
 	supply: BigInt!
