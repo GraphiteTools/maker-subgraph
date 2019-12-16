@@ -27,6 +27,7 @@ type Jug @entity {
 type Collateral @entity {
 	id: ID!
 	rate: BigInt!
+	minRatio: BigInt!
 }
 
 type Chai @entity {
