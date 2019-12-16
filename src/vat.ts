@@ -3,7 +3,7 @@ import { BigInt } from "@graphprotocol/graph-ts";
 import { InitCall, FileCall } from "../generated/Jug/Jug";
 import { Jug, Collateral } from "../generated/schema";
 
-export function handleInit(call: FileCall): void {
+export function handleInit(call: InitCall): void {
 	let ilk = call.inputs.ilk;
 
 	let collateral = Collateral.load(ilk.toString());
