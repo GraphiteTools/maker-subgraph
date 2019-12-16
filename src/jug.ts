@@ -30,7 +30,7 @@ export function handleBaseFile(call: File1Call): void {
 		return;
 	}
 
-	let jug = new Jug('0');
+	let jug = Jug.load('0');
 	if (!jug) {
 		jug.baseRate = new BigInt(0);
 		jug.collaterals = [];
