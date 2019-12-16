@@ -15,7 +15,7 @@ export function handleDutyFile(call: FileCall): void {
 	if (!collateral) {
 		collateral = new Collateral(ilk.toString());
 
-		let jug = new Jug('0');
+		let jug = Jug.load('0');
 		jug.collaterals.push(ilk.toString());
 		jug.save();
 	}
