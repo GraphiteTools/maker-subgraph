@@ -28,3 +28,31 @@ export function handleFile(call: FileCall): void {
 	let collateral = new Collateral(ilk.toString());
 	collateral.ceiling = data;
 }
+
+export function handleSlip(call: SlipCall): void {
+	let ilk = call.inputs.ilk;
+	let wad = call.inputs.wad;
+
+	let collateral = Collateral.load(ilk.toString());
+	collateral.supply += wad;
+	collateral.save();
+}
+
+export function handleFrob(call: FrobCall): void {
+	let i = call.inputs.i;
+	let dink = call.inputs.dink;
+
+	let collateral = Collateral.load(i.toString());
+	collateral.supply -= dink;
+	collateral.save();
+}
+
+export function handleGrab(call: GrabCall): void {
+	let i = call.inputs.i;
+	let dink = call.inputs.dink;
+
+	let collateral = Collateral.load(i.toString());
+	collateral.supply -= dink;
+	collateral.save();
+}
+
