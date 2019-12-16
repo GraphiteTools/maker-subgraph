@@ -29,6 +29,7 @@ type Collateral @entity {
 	rate: BigInt!
 	minRatio: BigInt!
 	ceiling: BigInt!
+	supply: BigInt!
 }
 
 type Chai @entity {
