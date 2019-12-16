@@ -71,6 +71,25 @@ dataSources:
           file: ./abis/jug.json
       file: ./src/jug.ts
   - kind: ethereum/contract
+    name: Spotter
+    network: mainnet
+    source:
+      address: "0x65C79fcB50Ca1594B025960e539eD7A9a6D434A3"
+      abi: Spotter
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - Spotter
+      callHandlers:
+        - function: file(bytes32,bytes32,uint256)
+          handler: handleFile
+      abis:
+        - name: Spotter
+          file: ./abis/spotter.json
+      file: ./src/spotter.ts
+  - kind: ethereum/contract
     name: Chai
     network: mainnet
     source:
