@@ -15,12 +15,6 @@ export function handleFile(call: FileCall): void {
 	}
 
 	let pot = Pot.load('0');
-	if (!pot) {
-		pot = new Pot('0');
-		pot.index = new BigInt(0);
-		pot.rate = new BigInt(0);
-		pot.supply = new BigInt(0);
-	}
 	pot.rate = data;
 	pot.save();
 
