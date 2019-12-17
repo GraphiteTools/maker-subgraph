@@ -49,18 +49,30 @@ export function handleSlip(call: SlipCall): void {
 export function handleFrob(call: FrobCall): void {
 	let i = call.inputs.i;
 	let dink = call.inputs.dink;
+	let dart = call.inputs.dart;
 
 	let collateral = Collateral.load(i.toString());
 	collateral.supply -= dink;
+	collateral.debt += dart;
 	collateral.save();
+
+	let jug = Jug.load('0');
+	jug.debt += dart;
+	jug.save();
 }
 
 export function handleGrab(call: GrabCall): void {
 	let i = call.inputs.i;
 	let dink = call.inputs.dink;
+	let dart = call.inputs.dart;
 
 	let collateral = Collateral.load(i.toString());
 	collateral.supply -= dink;
+	collateral.debt += dart;
 	collateral.save();
+
+	let jug = Jug.load('0');
+	jug.debt += dart;
+	jug.save();
 }
 

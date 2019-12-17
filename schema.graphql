@@ -21,6 +21,7 @@ type Pot @entity {
 type Jug @entity {
 	id: ID!
 	collaterals: [Collateral!]!
+	debt: BigInt!
 }
 
 type Collateral @entity {
@@ -29,6 +30,7 @@ type Collateral @entity {
 	minRatio: BigInt!
 	ceiling: BigInt!
 	supply: BigInt!
+	debt: BigInt!
 }
 
 type Chai @entity {
