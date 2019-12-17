@@ -18,6 +18,10 @@ export function handleInit(call: InitCall): void {
 		jug.collaterals.push(ilk.toString());
 		jug.save();
 	}
+	collateral.rate = new BigInt(0);
+	collateral.minRatio = new BigInt(0);
+	collateral.ceiling = new BigInt(0);
+	collateral.supply = new BigInt(0);
 	collateral.save();
 }
 
