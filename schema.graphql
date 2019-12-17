@@ -20,7 +20,6 @@ type Pot @entity {
 
 type Jug @entity {
 	id: ID!
-	baseRate: BigInt!
 	collaterals: [Collateral!]!
 }
 
