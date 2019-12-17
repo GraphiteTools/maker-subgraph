@@ -35,6 +35,7 @@ export function handleFile(call: FileCall): void {
 
 	let collateral = new Collateral(ilk.toString());
 	collateral.ceiling = data;
+	collateral.save();
 }
 
 export function handleSlip(call: SlipCall): void {
