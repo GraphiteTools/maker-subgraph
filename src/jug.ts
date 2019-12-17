@@ -1,6 +1,6 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 
-import { FileCall, File1Call } from "../generated/Jug/Jug";
+import { FileCall } from "../generated/Jug/Jug";
 import { Jug, Collateral } from "../generated/schema";
 
 export function handleDutyFile(call: FileCall): void {
@@ -21,20 +21,4 @@ export function handleDutyFile(call: FileCall): void {
 	}
 	collateral.rate = data;
 	collateral.save();
-}
-
-export function handleBaseFile(call: File1Call): void {
-	let what = call.inputs.what;
-	let data = call.inputs.data;
-	if (what.toString() != 'base') {
-		return;
-	}
-
-	let jug = Jug.load('0');
-	if (!jug) {
-		jug.baseRate = new BigInt(0);
-		jug.collaterals = [];
-	}
-	jug.baseRate = data;
-	jug.save();
 }

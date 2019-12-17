@@ -64,8 +64,6 @@ dataSources:
       callHandlers:
         - function: file(bytes32,bytes32,uint256)
           handler: handleDutyFile
-        - function: file(bytes32,uint256) 
-          handler: handleBaseFile
       abis:
         - name: Jug
           file: ./abis/jug.json
