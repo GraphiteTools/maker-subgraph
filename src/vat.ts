@@ -11,6 +11,10 @@ export function handleInit(call: InitCall): void {
 		collateral = new Collateral(ilk.toString());
 
 		let jug = Jug.load('0');
+		if (!jug) {
+			jug = new Jug('0');
+			jug.collaterals = [];
+		}
 		jug.collaterals.push(ilk.toString());
 		jug.save();
 	}
