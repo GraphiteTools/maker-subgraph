@@ -14,6 +14,7 @@ export function handleInit(call: InitCall): void {
 		if (!jug) {
 			jug = new Jug('0');
 			jug.collaterals = [];
+			jug.debt = new BigInt(0);
 		}
 		jug.collaterals.push(ilk.toString());
 		jug.save();
@@ -22,6 +23,7 @@ export function handleInit(call: InitCall): void {
 	collateral.minRatio = new BigInt(0);
 	collateral.ceiling = new BigInt(0);
 	collateral.supply = new BigInt(0);
+	collateral.debt = new BigInt(0);
 	collateral.save();
 }
 
