@@ -1,6 +1,6 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 
-import { InitCall, FileCall, SlipCall, FrobCall, GrabCall } from "../generated/Vat/Vat";
+import { InitCall, FileCall, SlipCall, FrobCall, GrabCall, HealCall, SuckCall, FoldCall } from "../generated/Vat/Vat";
 import { Jug, Collateral } from "../generated/schema";
 
 export function handleInit(call: InitCall): void {
@@ -60,7 +60,8 @@ export function handleFrob(call: FrobCall): void {
 	collateral.save();
 
 	let jug = Jug.load('0');
-	jug.debt += dart;
+	let dtab = dart * collateral.rate;
+	jug.debt += dtab;
 	jug.save();
 }
 
@@ -73,9 +74,34 @@ export function handleGrab(call: GrabCall): void {
 	collateral.supply -= dink;
 	collateral.debt += dart;
 	collateral.save();
+}
+
+export function handleHeal(call: HealCall): void {
+	let rad = call.inputs.rad;
 
 	let jug = Jug.load('0');
-	jug.debt += dart;
+	jug.debt -= rad;
 	jug.save();
 }
 
+export function handleSuck(call: SuckCall): void {
+	let rad = call.inputs.rad;
+
+	let jug = Jug.load('0');
+	jug.debt += rad;
+	jug.save();
+}
+
+export function handleFold(call: FoldCall): void {
+	let i = call.inputs.i;
+	let rate = call.inputs.rate;
+
+	let collateral = Collateral.load(i.toString());
+	collateral.rate += rate;
+	collateral.save();
+
+	let rad = collateral.debt * rate;
+	let jug = Jug.load('0');
+	jug.debt += rad;
+	jug.save();
+}

@@ -91,6 +91,12 @@ dataSources:
           handler: handleFrob
         - function: grab(bytes32,address,address,address,int256,int256)
           handler: handleGrab
+        - function: heal(uint256)
+          handler: handleHeal
+        - function: suck(address,address,uint256)
+          handler: handleSuck
+        - function: fold(bytes32,address,int256)
+          handler: handleFold
       abis:
         - name: Vat
           file: ./abis/vat.json
