@@ -1,7 +1,7 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 
 import { InitCall, FileCall, SlipCall, FrobCall, GrabCall, HealCall, SuckCall, FoldCall } from "../generated/Vat/Vat";
-import { Jug, Collateral } from "../generated/schema";
+import { Maker, Collateral } from "../generated/schema";
 
 export function handleInit(call: InitCall): void {
 	let ilk = call.inputs.ilk;
@@ -10,14 +10,17 @@ export function handleInit(call: InitCall): void {
 	if (!collateral) {
 		collateral = new Collateral(ilk.toString());
 
-		let jug = Jug.load('0');
-		if (!jug) {
-			jug = new Jug('0');
-			jug.collaterals = [];
-			jug.debt = new BigInt(0);
+		let maker = Maker.load('0');
+		if (!maker) {
+			maker = new Maker('0');
+			maker.index = new BigInt(0);
+			maker.rate = new BigInt(0);
+			maker.supply = new BigInt(0);
+			maker.collaterals = [];
+			maker.debt = new BigInt(0);
 		}
-		jug.collaterals.push(ilk.toString());
-		jug.save();
+		maker.collaterals.push(ilk.toString());
+		maker.save();
 	}
 	collateral.rate = new BigInt(0);
 	collateral.minRatio = new BigInt(0);
@@ -59,10 +62,10 @@ export function handleFrob(call: FrobCall): void {
 	collateral.debt += dart;
 	collateral.save();
 
-	let jug = Jug.load('0');
+	let maker = Maker.load('0');
 	let dtab = dart * collateral.rate;
-	jug.debt += dtab;
-	jug.save();
+	maker.debt += dtab;
+	maker.save();
 }
 
 export function handleGrab(call: GrabCall): void {
@@ -79,17 +82,17 @@ export function handleGrab(call: GrabCall): void {
 export function handleHeal(call: HealCall): void {
 	let rad = call.inputs.rad;
 
-	let jug = Jug.load('0');
-	jug.debt -= rad;
-	jug.save();
+	let maker = Maker.load('0');
+	maker.debt -= rad;
+	maker.save();
 }
 
 export function handleSuck(call: SuckCall): void {
 	let rad = call.inputs.rad;
 
-	let jug = Jug.load('0');
-	jug.debt += rad;
-	jug.save();
+	let maker = Maker.load('0');
+	maker.debt += rad;
+	maker.save();
 }
 
 export function handleFold(call: FoldCall): void {
@@ -101,7 +104,7 @@ export function handleFold(call: FoldCall): void {
 	collateral.save();
 
 	let rad = collateral.debt * rate;
-	let jug = Jug.load('0');
-	jug.debt += rad;
-	jug.save();
+	let maker = Maker.load('0');
+	maker.debt += rad;
+	maker.save();
 }

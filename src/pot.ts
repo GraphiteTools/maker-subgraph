@@ -1,7 +1,7 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 
 import { FileCall, DripCall, JoinCall, ExitCall } from "../generated/Pot/Pot";
-import { Pot, User, Proxy, RateChangeEvent, PotDepositEvent, PotWithdrawEvent } from "../generated/schema";
+import { Maker, User, Proxy, RateChangeEvent, PotDepositEvent, PotWithdrawEvent } from "../generated/schema";
 
 export function handleFile(call: FileCall): void {
 	let blockNumber = call.block.number;
@@ -14,9 +14,9 @@ export function handleFile(call: FileCall): void {
 		return;
 	}
 
-	let pot = Pot.load('0');
-	pot.rate = data;
-	pot.save();
+	let maker = Maker.load('0');
+	maker.rate = data;
+	maker.save();
 
 	let event = new RateChangeEvent(transactionHash.toHexString());
 	event.blockNumber = blockNumber;
@@ -28,15 +28,9 @@ export function handleFile(call: FileCall): void {
 export function handleDrip(call: DripCall): void {
 	let chi = call.outputs.tmp;
 
-	let pot = Pot.load('0');
-	if (!pot) {
-		pot = new Pot('0');
-		pot.index = new BigInt(0);
-		pot.rate = new BigInt(0);
-		pot.supply = new BigInt(0);
-	}
-	pot.index = chi;
-	pot.save();
+	let maker = Maker.load('0');
+	maker.index = chi;
+	maker.save();
 }
 
 export function handleJoin(call: JoinCall): void {
@@ -46,9 +40,9 @@ export function handleJoin(call: JoinCall): void {
 	let from = call.from;
 	let wad = call.inputs.wad;
 
-	let pot = Pot.load('0');
-	pot.supply += wad;
-	pot.save();
+	let maker = Maker.load('0');
+	maker.supply += wad;
+	maker.save();
 
 	let proxy = Proxy.load(from.toHexString());
 	if (proxy) {
@@ -82,9 +76,9 @@ export function handleExit(call: ExitCall): void {
 	let from = call.from;
 	let wad = call.inputs.wad;
 
-	let pot = Pot.load('0');
-	pot.supply -= wad;
-	pot.save();
+	let maker = Maker.load('0');
+	maker.supply -= wad;
+	maker.save();
 
 	let proxy = Proxy.load(from.toHexString());
 	if (proxy) {

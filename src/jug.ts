@@ -1,7 +1,7 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 
 import { FileCall } from "../generated/Jug/Jug";
-import { Jug, Collateral } from "../generated/schema";
+import { Maker, Collateral } from "../generated/schema";
 
 export function handleDutyFile(call: FileCall): void {
 	let ilk = call.inputs.ilk;
@@ -15,9 +15,9 @@ export function handleDutyFile(call: FileCall): void {
 	if (!collateral) {
 		collateral = new Collateral(ilk.toString());
 
-		let jug = Jug.load('0');
-		jug.collaterals.push(ilk.toString());
-		jug.save();
+		let maker = Maker.load('0');
+		maker.collaterals.push(ilk.toString());
+		maker.save();
 	}
 	collateral.rate = data;
 	collateral.save();

@@ -1,7 +1,7 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 
 import { FileCall } from "../generated/Spotter/Spotter";
-import { Jug, Collateral } from "../generated/schema";
+import { Maker, Collateral } from "../generated/schema";
 
 export function handleFile(call: FileCall): void {
 	let ilk = call.inputs.ilk;
@@ -15,9 +15,9 @@ export function handleFile(call: FileCall): void {
 	if (!collateral) {
 		collateral = new Collateral(ilk.toString());
 
-		let jug = Jug.load('0');
-		jug.collaterals.push(ilk.toString());
-		jug.save();
+		let maker = Maker.load('0');
+		maker.collaterals.push(ilk.toString());
+		maker.save();
 	}
 	collateral.minRatio = data;
 	collateral.save();
