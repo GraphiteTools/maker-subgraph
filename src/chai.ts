@@ -1,7 +1,7 @@
 import { BigInt, Address } from "@graphprotocol/graph-ts";
 
 import { Transfer } from "../generated/Chai/Chai";
-import { Chai, User } from "../generated/schema";
+import { Maker, User } from "../generated/schema";
 
 let zeroAddress = Address.fromString('0x0000000000000000000000000000000000000000');
 
@@ -14,22 +14,18 @@ export function handleTransfer(event: Transfer): void {
 	let to = event.params.dst;
 	let wad = event.params.wad;
 
-	let chai = Chai.load('0');
-	if (!chai) {
-		chai = new Chai('0');
-		chai.supply = new BigInt(0);
-	}
+	let maker = Maker.load('0');
 
 	if (from == zeroAddress) {
 		// Mint
-		chai.supply += wad;
+		maker.chaiSupply += wad;
 	}
 
 	if (to == zeroAddress) {
 		// Burn
-		chai.supply -= wad;
+		maker.chaiSupply -= wad;
 	}
-	chai.save();
+	maker.save();
 
 	if (from != zeroAddress) {
 		let user = User.load(from.toHexString());

@@ -3,6 +3,7 @@ type Maker @entity {
 	index: BigInt!
 	rate: BigInt!
 	supply: BigInt!
+	chaiSupply: BigInt!
 	collaterals: [Collateral!]!
 	debt: BigInt!
 }
@@ -27,11 +28,6 @@ type Collateral @entity {
 	ceiling: BigInt!
 	supply: BigInt!
 	debt: BigInt!
-}
-
-type Chai @entity {
-	id: ID!
-	supply: BigInt!
 }
 
 type RateChangeEvent @entity {
