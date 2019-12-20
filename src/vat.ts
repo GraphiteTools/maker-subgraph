@@ -16,6 +16,7 @@ export function handleInit(call: InitCall): void {
 			maker.index = new BigInt(0);
 			maker.rate = new BigInt(0);
 			maker.supply = new BigInt(0);
+			maker.chaiSupply = new BigInt(0);
 			maker.collaterals = [];
 			maker.debt = new BigInt(0);
 		}
