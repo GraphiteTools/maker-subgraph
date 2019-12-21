@@ -12,13 +12,6 @@ export function handleFile(call: FileCall): void {
 	}
 
 	let collateral = Collateral.load(ilk.toString());
-	if (!collateral) {
-		collateral = new Collateral(ilk.toString());
-
-		let maker = Maker.load('0');
-		maker.collaterals.push(ilk.toString());
-		maker.save();
-	}
 	collateral.minRatio = data;
 	collateral.save();
 }
