@@ -8,10 +8,13 @@ type Maker @entity {
 	debt: BigInt!
 }
 
-type Proxy @entity {
+type Collateral @entity {
 	id: ID!
-	user: User!
-	balance: BigInt!
+	rate: BigInt!
+	minRatio: BigInt!
+	ceiling: BigInt!
+	supply: BigInt!
+	debt: BigInt!
 }
 
 type User @entity {
@@ -21,13 +24,10 @@ type User @entity {
 	chaiBalance: BigInt!
 }
 
-type Collateral @entity {
+type Proxy @entity {
 	id: ID!
-	rate: BigInt!
-	minRatio: BigInt!
-	ceiling: BigInt!
-	supply: BigInt!
-	debt: BigInt!
+	user: User!
+	balance: BigInt!
 }
 
 type RateChangeEvent @entity {
