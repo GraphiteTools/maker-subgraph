@@ -3,6 +3,9 @@ import { Address, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 import { InitCall, FileCall, SlipCall, FrobCall, GrabCall, HealCall, SuckCall, FoldCall, LogNote } from "../generated/Vat/Vat";
 import { Maker, Collateral, Vault } from "../generated/schema";
 
+let ten = new BigInt(10);
+let ray = ten.pow(27);
+
 export function handleInit(call: InitCall): void {
 	let ilk = call.inputs.ilk;
 
@@ -23,6 +26,7 @@ export function handleInit(call: InitCall): void {
 		maker.collaterals.push(ilk.toString());
 		maker.save();
 	}
+	collateral.index = ray;
 	collateral.rate = new BigInt(0);
 	collateral.minRatio = new BigInt(0);
 	collateral.ceiling = new BigInt(0);
@@ -64,7 +68,7 @@ export function handleFrob(call: FrobCall): void {
 	collateral.save();
 
 	let maker = Maker.load('0');
-	let dtab = dart * collateral.rate;
+	let dtab = dart * collateral.index;
 	maker.debt += dtab;
 	maker.save();
 }
@@ -101,7 +105,7 @@ export function handleFold(call: FoldCall): void {
 	let rate = call.inputs.rate;
 
 	let collateral = Collateral.load(i.toString());
-	collateral.rate += rate;
+	collateral.index += rate;
 	collateral.save();
 
 	let rad = collateral.debt * rate;

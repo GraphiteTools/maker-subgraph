@@ -10,6 +10,7 @@ type Maker @entity {
 
 type Collateral @entity {
 	id: ID!
+	index: BigInt!
 	rate: BigInt!
 	minRatio: BigInt!
 	ceiling: BigInt!
