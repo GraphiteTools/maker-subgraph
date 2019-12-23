@@ -2,20 +2,20 @@ type Maker @entity {
 	id: ID!
 	index: BigInt!
 	rate: BigInt!
-	supply: BigInt!
-	chaiSupply: BigInt!
 	collaterals: [Collateral!]!
 	debt: BigInt!
+	supply: BigInt!
+	chaiSupply: BigInt!
 }
 
 type Collateral @entity {
 	id: ID!
 	index: BigInt!
 	rate: BigInt!
-	minRatio: BigInt!
-	ceiling: BigInt!
 	supply: BigInt!
 	debt: BigInt!
+	ceiling: BigInt!
+	minRatio: BigInt!
 }
 
 type User @entity {
@@ -33,16 +33,16 @@ type Proxy @entity {
 
 type CDP @entity {
 	id: ID!
-	vault: Vault!
 	owner: Proxy!
+	vault: Vault!
 }
 
 type Vault @entity {
 	id: ID!
 	cdp: CDP!
 	collateral: Collateral!
-	supply: BigInt!
 	debt: BigInt!
+	supply: BigInt!
 }
 
 type RateChangeEvent @entity {
