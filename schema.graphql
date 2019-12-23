@@ -30,6 +30,20 @@ type Proxy @entity {
 	balance: BigInt!
 }
 
+type CDP @entity {
+	id: ID!
+	vault: Vault!
+	owner: Proxy!
+}
+
+type Vault @entity {
+	id: ID!
+	cdp: CDP!
+	collateral: Collateral!
+	supply: BigInt!
+	debt: BigInt!
+}
+
 type RateChangeEvent @entity {
 	id: ID!
 	blockNumber: BigInt!
