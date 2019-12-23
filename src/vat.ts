@@ -3,7 +3,7 @@ import { Address, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 import { LogNote } from "../generated/Vat/Vat";
 import { Maker, Collateral, Vault } from "../generated/schema";
 
-let ten = new BigInt(10);
+let ten = BigInt.fromI32(10);
 let ray = ten.pow(27);
 
 export function handleInitEvent(event: LogNote): void {
@@ -212,7 +212,7 @@ export function handleSuckEvent(event: LogNote): void {
 
 	let radBytes = ByteArray.fromHexString(radString).reverse();
 
-	let rad = BigInt.fromSignedBytes(radString as Bytes);
+	let rad = BigInt.fromSignedBytes(radBytes as Bytes);
 
 	let maker = Maker.load('0');
 	maker.debt += rad;

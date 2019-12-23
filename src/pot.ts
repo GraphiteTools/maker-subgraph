@@ -54,7 +54,7 @@ export function handleJoinEvent(event: LogNote): void {
 
 	let wadBytes = ByteArray.fromHexString(wadString).reverse();
 
-	let wad = BigInt.fromSignedBytes(wadString as Bytes);
+	let wad = BigInt.fromSignedBytes(wadBytes as Bytes);
 
 	let maker = Maker.load('0');
 	maker.supply += wad;
@@ -97,7 +97,7 @@ export function handleExitEvent(event: LogNote): void {
 
 	let wadBytes = ByteArray.fromHexString(wadString).reverse();
 
-	let wad = BigInt.fromSignedBytes(wadString as Bytes);
+	let wad = BigInt.fromSignedBytes(wadBytes as Bytes);
 
 	let maker = Maker.load('0');
 	maker.supply -= wad;
