@@ -80,6 +80,10 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Vat
+      eventHandlers:
+        - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x7608870300000000000000000000000000000000000000000000000000000000"
+          handler: handleFrobEvent
       callHandlers:
         - function: init(bytes32)
           handler: handleInit

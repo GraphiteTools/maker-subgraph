@@ -1,7 +1,7 @@
-import { BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
-import { InitCall, FileCall, SlipCall, FrobCall, GrabCall, HealCall, SuckCall, FoldCall } from "../generated/Vat/Vat";
-import { Maker, Collateral } from "../generated/schema";
+import { InitCall, FileCall, SlipCall, FrobCall, GrabCall, HealCall, SuckCall, FoldCall, LogNote } from "../generated/Vat/Vat";
+import { Maker, Collateral, Vault } from "../generated/schema";
 
 export function handleInit(call: InitCall): void {
 	let ilk = call.inputs.ilk;
@@ -108,4 +108,36 @@ export function handleFold(call: FoldCall): void {
 	let maker = Maker.load('0');
 	maker.debt += rad;
 	maker.save();
+}
+
+export function handleFrobEvent(event: LogNote): void {
+	let txHash = event.transaction.hash;
+	let data = event.params.data;
+
+	let dataString = data.toHexString();
+	let ilkString = dataString.substr(10, 64);
+	let userString = dataString.substr(98, 40);
+	let dinkString = dataString.substr(266, 64);
+	let dartString = dataString.substr(330, 64);
+
+	let ilkBytes = ByteArray.fromHexString(ilkString);
+	let dinkBytes = ByteArray.fromHexString(dinkString).reverse();
+	let dartBytes = ByteArray.fromHexString(dartString).reverse();
+
+	let ilk = ilkBytes.toString();
+	let user = Address.fromString(userString);
+	let dink = BigInt.fromSignedBytes(dinkBytes as Bytes);
+	let dart = BigInt.fromSignedBytes(dartBytes as Bytes);
+
+	let vault = Vault.load(user.toHexString());
+	if (!vault) {
+		vault = new Vault(user.toHexString());
+		vault.cdp = '0';
+		vault.collateral = ilk.toString();
+		vault.supply = new BigInt(0);
+		vault.debt = new BigInt(0);
+	}
+	vault.supply += dink;
+	vault.debt += dart;
+	vault.save();
 }
