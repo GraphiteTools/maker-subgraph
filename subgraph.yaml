@@ -84,6 +84,12 @@ dataSources:
         - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
           topic0: "0x7608870300000000000000000000000000000000000000000000000000000000"
           handler: handleFrobEvent
+        - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x870c616d00000000000000000000000000000000000000000000000000000000"
+          handler: handleForkEvent
+        - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x7bab3f4000000000000000000000000000000000000000000000000000000000"
+          handler: handleGrabEvent
       callHandlers:
         - function: init(bytes32)
           handler: handleInit

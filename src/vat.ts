@@ -141,3 +141,58 @@ export function handleFrobEvent(event: LogNote): void {
 	vault.debt += dart;
 	vault.save();
 }
+
+export function handleForkEvent(event: LogNote): void {
+	let data = event.params.data;
+
+	let dataString = data.toHexString();
+	let ilkString = dataString.substr(10, 64);
+	let srcString = dataString.substr(98, 40);
+	let dstString = dataString.substr(162, 40);
+	let dinkString = dataString.substr(226, 64);
+	let dartString = dataString.substr(290, 64);
+
+	let ilkBytes = ByteArray.fromHexString(ilkString);
+	let dinkBytes = ByteArray.fromHexString(dinkString).reverse();
+	let dartBytes = ByteArray.fromHexString(dartString).reverse();
+
+	let ilk = ilkBytes.toString();
+	let src = Address.fromString(srcString);
+	let dst = Address.fromString(dstString);
+	let dink = BigInt.fromSignedBytes(dinkBytes as Bytes);
+	let dart = BigInt.fromSignedBytes(dartBytes as Bytes);
+
+	let srcVault = Vault.load(src.toHexString());
+	srcVault.supply -= dink;
+	srcVault.debt -= dart;
+	srcVault.save();
+
+	let dstVault = Vault.load(dst.toHexString());
+	dstVault.supply -= dink;
+	dstVault.debt -= dart;
+	dstVault.save();
+}
+
+export function handleGrabEvent(event: LogNote): void {
+	let data = event.params.data;
+
+	let dataString = data.toHexString();
+	let ilkString = dataString.substr(10, 64);
+	let userString = dataString.substr(98, 40);
+	let dinkString = dataString.substr(266, 64);
+	let dartString = dataString.substr(330, 64);
+
+	let ilkBytes = ByteArray.fromHexString(ilkString);
+	let dinkBytes = ByteArray.fromHexString(dinkString).reverse();
+	let dartBytes = ByteArray.fromHexString(dartString).reverse();
+
+	let ilk = ilkBytes.toString();
+	let user = Address.fromString(userString);
+	let dink = BigInt.fromSignedBytes(dinkBytes as Bytes);
+	let dart = BigInt.fromSignedBytes(dartBytes as Bytes);
+
+	let vault = Vault.load(user.toHexString());
+	vault.supply += dink;
+	vault.debt += dart;
+	vault.save();
+}
