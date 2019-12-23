@@ -1,17 +1,24 @@
 import { Address, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
-import { InitCall, FileCall, SlipCall, FrobCall, GrabCall, HealCall, SuckCall, FoldCall, LogNote } from "../generated/Vat/Vat";
+import { LogNote } from "../generated/Vat/Vat";
 import { Maker, Collateral, Vault } from "../generated/schema";
 
 let ten = new BigInt(10);
 let ray = ten.pow(27);
 
-export function handleInit(call: InitCall): void {
-	let ilk = call.inputs.ilk;
+export function handleInitEvent(event: LogNote): void {
+	let data = event.params.data;
 
-	let collateral = Collateral.load(ilk.toString());
+	let dataString = data.toHexString();
+	let ilkString = dataString.substr(10, 64);
+
+	let ilkBytes = ByteArray.fromHexString(ilkString);
+
+	let ilk = ilkBytes.toString();
+
+	let collateral = Collateral.load(ilk);
 	if (!collateral) {
-		collateral = new Collateral(ilk.toString());
+		collateral = new Collateral(ilk);
 
 		let maker = Maker.load('0');
 		if (!maker) {
@@ -23,7 +30,7 @@ export function handleInit(call: InitCall): void {
 			maker.collaterals = [];
 			maker.debt = new BigInt(0);
 		}
-		maker.collaterals.push(ilk.toString());
+		maker.collaterals.push(ilk);
 		maker.save();
 	}
 	collateral.index = ray;
@@ -35,83 +42,47 @@ export function handleInit(call: InitCall): void {
 	collateral.save();
 }
 
-export function handleFile(call: FileCall): void {
-	let ilk = call.inputs.ilk;
-	let what = call.inputs.what;
-	let data = call.inputs.data;
-	if (what.toString() != 'line') {
+export function handleFileEvent(event: LogNote): void {
+	let data = event.params.data;
+
+	let dataString = data.toHexString();
+	let ilkString = dataString.substr(10, 64);
+	let whatString = dataString.substr(74, 64);
+	let govDataString = dataString.substr(138, 64);
+
+	let ilkBytes = ByteArray.fromHexString(ilkString);
+	let whatBytes = ByteArray.fromHexString(whatString);
+	let govDataBytes = ByteArray.fromHexString(govDataString).reverse();
+
+	let ilk = ilkBytes.toString();
+	let what = whatBytes.toString();
+	let govData = BigInt.fromSignedBytes(govDataBytes as Bytes);
+
+	if (what != 'line') {
 		return;
 	}
 
-	let collateral = new Collateral(ilk.toString());
-	collateral.ceiling = data;
+	let collateral = new Collateral(ilk);
+	collateral.ceiling = govData;
 	collateral.save();
 }
 
-export function handleSlip(call: SlipCall): void {
-	let ilk = call.inputs.ilk;
-	let wad = call.inputs.wad;
+export function handleSlipEvent(event: LogNote): void {
+	let data = event.params.data;
 
-	let collateral = Collateral.load(ilk.toString());
+	let dataString = data.toHexString();
+	let ilkString = dataString.substr(10, 64);
+	let wadString = dataString.substr(138, 64);
+
+	let ilkBytes = ByteArray.fromHexString(ilkString);
+	let wadBytes = ByteArray.fromHexString(wadString).reverse();
+
+	let ilk = ilkBytes.toString();
+	let wad = BigInt.fromSignedBytes(wadBytes as Bytes);
+
+	let collateral = Collateral.load(ilk);
 	collateral.supply += wad;
 	collateral.save();
-}
-
-export function handleFrob(call: FrobCall): void {
-	let i = call.inputs.i;
-	let dink = call.inputs.dink;
-	let dart = call.inputs.dart;
-
-	let collateral = Collateral.load(i.toString());
-	collateral.supply -= dink;
-	collateral.debt += dart;
-	collateral.save();
-
-	let maker = Maker.load('0');
-	let dtab = dart * collateral.index;
-	maker.debt += dtab;
-	maker.save();
-}
-
-export function handleGrab(call: GrabCall): void {
-	let i = call.inputs.i;
-	let dink = call.inputs.dink;
-	let dart = call.inputs.dart;
-
-	let collateral = Collateral.load(i.toString());
-	collateral.supply -= dink;
-	collateral.debt += dart;
-	collateral.save();
-}
-
-export function handleHeal(call: HealCall): void {
-	let rad = call.inputs.rad;
-
-	let maker = Maker.load('0');
-	maker.debt -= rad;
-	maker.save();
-}
-
-export function handleSuck(call: SuckCall): void {
-	let rad = call.inputs.rad;
-
-	let maker = Maker.load('0');
-	maker.debt += rad;
-	maker.save();
-}
-
-export function handleFold(call: FoldCall): void {
-	let i = call.inputs.i;
-	let rate = call.inputs.rate;
-
-	let collateral = Collateral.load(i.toString());
-	collateral.index += rate;
-	collateral.save();
-
-	let rad = collateral.debt * rate;
-	let maker = Maker.load('0');
-	maker.debt += rad;
-	maker.save();
 }
 
 export function handleFrobEvent(event: LogNote): void {
@@ -132,6 +103,17 @@ export function handleFrobEvent(event: LogNote): void {
 	let user = Address.fromString(userString);
 	let dink = BigInt.fromSignedBytes(dinkBytes as Bytes);
 	let dart = BigInt.fromSignedBytes(dartBytes as Bytes);
+
+	let maker = Maker.load('0');
+	let collateral = Collateral.load(ilk);
+
+	let dtab = dart * collateral.index;
+	maker.debt += dtab;
+	maker.save();
+
+	collateral.supply -= dink;
+	collateral.debt += dart;
+	collateral.save();
 
 	let vault = Vault.load(user.toHexString());
 	if (!vault) {
@@ -195,8 +177,66 @@ export function handleGrabEvent(event: LogNote): void {
 	let dink = BigInt.fromSignedBytes(dinkBytes as Bytes);
 	let dart = BigInt.fromSignedBytes(dartBytes as Bytes);
 
+	let collateral = Collateral.load(ilk);
+	collateral.supply -= dink;
+	collateral.debt += dart;
+	collateral.save();
+
 	let vault = Vault.load(user.toHexString());
 	vault.supply += dink;
 	vault.debt += dart;
 	vault.save();
+}
+
+export function handleHealEvent(event: LogNote): void {
+	let data = event.params.data;
+
+	let dataString = data.toHexString();
+	let radString = dataString.substr(10, 64);
+
+	let radBytes = ByteArray.fromHexString(radString).reverse();
+
+	let rad = BigInt.fromSignedBytes(radBytes as Bytes);
+
+	let maker = Maker.load('0');
+	maker.debt -= rad;
+	maker.save();
+}
+
+export function handleSuckEvent(event: LogNote): void {
+	let data = event.params.data;
+
+	let dataString = data.toHexString();
+	let radString = dataString.substr(138, 64);
+
+	let radBytes = ByteArray.fromHexString(radString).reverse();
+
+	let rad = BigInt.fromSignedBytes(radString as Bytes);
+
+	let maker = Maker.load('0');
+	maker.debt += rad;
+	maker.save();
+}
+
+export function handleFoldEvent(event: LogNote): void {
+	let data = event.params.data;
+
+	let dataString = data.toHexString();
+	let ilkString = dataString.substr(10, 64);
+	let rateString = dataString.substr(138, 64);
+
+	let ilkBytes = ByteArray.fromHexString(ilkString);
+	let rateBytes = ByteArray.fromHexString(rateString).reverse();
+
+	let ilk = ilkBytes.toString();
+	let rate = BigInt.fromSignedBytes(rateBytes as Bytes);
+
+	let collateral = Collateral.load(ilk);
+	collateral.index += rate;
+	collateral.save();
+
+	let rad = collateral.debt * rate;
+	let maker = Maker.load('0');
+	maker.debt += rad;
+	maker.save();
 }

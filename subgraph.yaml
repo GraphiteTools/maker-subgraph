@@ -37,14 +37,18 @@ dataSources:
         - User
         - Proxy
       callHandlers:
-        - function: file(bytes32,uint256)
-          handler: handleFile
         - function: drip()
           handler: handleDrip
-        - function: join(uint256)
-          handler: handleJoin
-        - function: exit(uint256)
-          handler: handleExit
+      eventHandlers:
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x29ae811400000000000000000000000000000000000000000000000000000000"
+          handler: handleFileEvent
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x049878f300000000000000000000000000000000000000000000000000000000"
+          handler: handleJoinEvent
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x7f8661a100000000000000000000000000000000000000000000000000000000"
+          handler: handleExitEvent
       abis:
         - name: Pot
           file: ./abis/pot.json
@@ -82,6 +86,15 @@ dataSources:
         - Vat
       eventHandlers:
         - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x3b66319500000000000000000000000000000000000000000000000000000000"
+          handler: handleInitEvent
+        - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x1a0b287e00000000000000000000000000000000000000000000000000000000"
+          handler: handleFileEvent
+        - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x7cdd3fde00000000000000000000000000000000000000000000000000000000"
+          handler: handleSlipEvent
+        - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
           topic0: "0x7608870300000000000000000000000000000000000000000000000000000000"
           handler: handleFrobEvent
         - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
@@ -90,23 +103,15 @@ dataSources:
         - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
           topic0: "0x7bab3f4000000000000000000000000000000000000000000000000000000000"
           handler: handleGrabEvent
-      callHandlers:
-        - function: init(bytes32)
-          handler: handleInit
-        - function: file(bytes32,bytes32,uint256)
-          handler: handleFile
-        - function: slip(bytes32,address,int256)
-          handler: handleSlip
-        - function: frob(bytes32,address,address,address,int256,int256)
-          handler: handleFrob
-        - function: grab(bytes32,address,address,address,int256,int256)
-          handler: handleGrab
-        - function: heal(uint256)
-          handler: handleHeal
-        - function: suck(address,address,uint256)
-          handler: handleSuck
-        - function: fold(bytes32,address,int256)
-          handler: handleFold
+        - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0xf37ac61c00000000000000000000000000000000000000000000000000000000"
+          handler: handleHealEvent
+        - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0xf24e23eb00000000000000000000000000000000000000000000000000000000"
+          handler: handleSuckEvent
+        - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0xb65337df00000000000000000000000000000000000000000000000000000000"
+          handler: handleFoldEvent
       abis:
         - name: Vat
           file: ./abis/vat.json

@@ -1,29 +1,7 @@
-import { BigInt } from "@graphprotocol/graph-ts";
+import { BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
-import { FileCall, DripCall, JoinCall, ExitCall } from "../generated/Pot/Pot";
+import { DripCall, LogNote } from "../generated/Pot/Pot";
 import { Maker, User, Proxy, RateChangeEvent, PotDepositEvent, PotWithdrawEvent } from "../generated/schema";
-
-export function handleFile(call: FileCall): void {
-	let blockNumber = call.block.number;
-	let blockTime = call.block.timestamp;
-	let transactionHash = call.transaction.hash;
-	let what = call.inputs.what;
-	let data = call.inputs.data;
-
-	if (what.toString() != 'dsr') {
-		return;
-	}
-
-	let maker = Maker.load('0');
-	maker.rate = data;
-	maker.save();
-
-	let event = new RateChangeEvent(transactionHash.toHexString());
-	event.blockNumber = blockNumber;
-	event.blockTime = blockTime;
-	event.rate = data;
-	event.save();
-}
 
 export function handleDrip(call: DripCall): void {
 	let chi = call.outputs.tmp;
@@ -33,12 +11,50 @@ export function handleDrip(call: DripCall): void {
 	maker.save();
 }
 
-export function handleJoin(call: JoinCall): void {
-	let blockNumber = call.block.number;
-	let blockTime = call.block.timestamp;
-	let transactionHash = call.transaction.hash;
-	let from = call.from;
-	let wad = call.inputs.wad;
+export function handleFileEvent(event: LogNote): void {
+	let blockNumber = event.block.number;
+	let blockTime = event.block.timestamp;
+	let transactionHash = event.transaction.hash;
+	let data = event.params.data;
+
+	let dataString = data.toHexString();
+	let whatString = dataString.substr(10, 64);
+	let govDataString = dataString.substr(74, 64);
+
+	let whatBytes = ByteArray.fromHexString(whatString);
+	let govDataBytes = ByteArray.fromHexString(govDataString).reverse();
+
+	let what = whatBytes.toString();
+	let govData = BigInt.fromSignedBytes(govDataBytes as Bytes);
+
+	if (what != 'dsr') {
+		return;
+	}
+
+	let maker = Maker.load('0');
+	maker.rate = govData;
+	maker.save();
+
+	let event = new RateChangeEvent(transactionHash.toHexString());
+	event.blockNumber = blockNumber;
+	event.blockTime = blockTime;
+	event.rate = govData;
+	event.save();
+}
+
+export function handleJoinEvent(event: LogNote): void {
+	let blockNumber = event.block.number;
+	let blockTime = event.block.timestamp;
+	let transactionHash = event.transaction.hash;
+	let from = event.params.usr;
+	let data = event.params.data;
+
+	let dataString = data.toHexString();
+	let wadString = dataString.substr(10, 64);
+
+	let wadBytes = ByteArray.fromHexString(wadString).reverse();
+
+	let wad = BigInt.fromSignedBytes(wadString as Bytes);
 
 	let maker = Maker.load('0');
 	maker.supply += wad;
@@ -69,12 +85,19 @@ export function handleJoin(call: JoinCall): void {
 	event.save();
 }
 
-export function handleExit(call: ExitCall): void {
-	let blockNumber = call.block.number;
-	let blockTime = call.block.timestamp;
-	let transactionHash = call.transaction.hash;
-	let from = call.from;
-	let wad = call.inputs.wad;
+export function handleExitEvent(event: LogNote): void {
+	let blockNumber = event.block.number;
+	let blockTime = event.block.timestamp;
+	let transactionHash = event.transaction.hash;
+	let from = event.params.usr;
+	let data = event.params.data;
+
+	let dataString = data.toHexString();
+	let wadString = dataString.substr(10, 64);
+
+	let wadBytes = ByteArray.fromHexString(wadString).reverse();
+
+	let wad = BigInt.fromSignedBytes(wadString as Bytes);
 
 	let maker = Maker.load('0');
 	maker.supply -= wad;
