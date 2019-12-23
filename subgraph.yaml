@@ -139,3 +139,22 @@ dataSources:
         - name: Chai
           file: ./abis/chai.json
       file: ./src/chai.ts
+  - kind: ethereum/contract
+    name: CdpManager
+    network: mainnet
+    source:
+      address: "0x5ef30b9986345249bc32d8928B7ee64DE9435E39"
+      abi: CdpManager
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - User
+      eventHandlers:
+        - event: NewCdp(indexed address,indexed address,indexed uint256)
+          handler: handleNewCdp
+      abis:
+        - name: CdpManager
+          file: ./abis/cdpManager.json
+      file: ./src/cdpManager.ts
