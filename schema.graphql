@@ -3,6 +3,7 @@ type Maker @entity {
 	index: BigInt!
 	rate: BigInt!
 	collaterals: [Collateral!]!
+	vaultCount: Int!
 	debt: BigInt!
 	supply: BigInt!
 	chaiSupply: BigInt!

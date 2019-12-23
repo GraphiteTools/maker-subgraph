@@ -1,7 +1,7 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 
 import { NewCdp, CdpManager } from "../generated/CdpManager/CdpManager";
-import { CDP, Vault } from "../generated/schema";
+import { Maker, CDP, Vault } from "../generated/schema";
 
 export function handleNewCdp(event: NewCdp): void {
 	let address = event.address;
@@ -11,6 +11,10 @@ export function handleNewCdp(event: NewCdp): void {
 	let manager = CdpManager.bind(address);
 	let handler = manager.urns(number);
 	let ilk = manager.ilks(number);
+
+	let maker = Maker.load('0');
+	maker.vaultCount = number.toI32();
+	maker.save()
 
 	let cdp = new CDP(number.toString());
 	cdp.vault = handler.toHexString();
