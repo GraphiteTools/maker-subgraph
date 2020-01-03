@@ -1,5 +1,5 @@
 {
-  "name": "compound-subgraph",
+  "name": "maker-subgraph",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
