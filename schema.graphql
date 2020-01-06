@@ -21,20 +21,15 @@ type Collateral @entity {
 
 type User @entity {
 	id: ID!
-	proxy: Proxy
+	owner: User
+	proxy: User
 	balance: BigInt!
 	chaiBalance: BigInt!
 }
 
-type Proxy @entity {
-	id: ID!
-	user: User!
-	balance: BigInt!
-}
-
 type CDP @entity {
 	id: ID!
-	owner: Proxy!
+	owner: User!
 	vault: Vault!
 }
 

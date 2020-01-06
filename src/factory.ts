@@ -1,7 +1,7 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 
 import { Created } from "../generated/ProxyFactory/ProxyFactory";
-import { User, Proxy } from "../generated/schema";
+import { User } from "../generated/schema";
 
 export function handleCreated(event: Created): void {
 	let owner = event.params.owner;
@@ -16,11 +16,9 @@ export function handleCreated(event: Created): void {
 	user.proxy = proxyAddress.toHexString();
 	user.save();
 
-	let proxy = Proxy.load(proxyAddress.toHexString());
-	if (!proxy) {
-		proxy = new Proxy(proxyAddress.toHexString());
-		proxy.balance = new BigInt(0);
-	}
-	proxy.user = owner.toHexString();
-	proxy.save();
+	let proxyUser = new User(proxyAddress.toHexString());
+	proxyUser.owner = owner.toHexString();
+	proxyUser.balance = new BigInt(0);
+	proxyUser.chaiBalance = new BigInt(0);
+	proxyUser.save();
 }

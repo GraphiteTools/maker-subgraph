@@ -1,7 +1,7 @@
 import { BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
 import { DripCall, LogNote } from "../generated/Pot/Pot";
-import { Maker, User, Proxy } from "../generated/schema";
+import { Maker, User } from "../generated/schema";
 
 export function handleDrip(call: DripCall): void {
 	let chi = call.outputs.tmp;
@@ -54,14 +54,6 @@ export function handleJoinEvent(event: LogNote): void {
 	maker.supply += wad;
 	maker.save();
 
-	let proxy = Proxy.load(from.toHexString());
-	if (proxy) {
-		proxy.balance += wad;
-		proxy.save();
-		return;
-	}
-
-	// Proxy does not exist: direct deposit
 	let user = User.load(from.toHexString());
 	if (!user) {
 		user = new User(from.toHexString());
@@ -90,14 +82,6 @@ export function handleExitEvent(event: LogNote): void {
 	maker.supply -= wad;
 	maker.save();
 
-	let proxy = Proxy.load(from.toHexString());
-	if (proxy) {
-		proxy.balance -= wad;
-		proxy.save();
-		return;
-	}
-
-	// Proxy does not exist: direct withdrawal
 	let user = User.load(from.toHexString());
 	if (!user) {
 		user = new User(from.toHexString());
