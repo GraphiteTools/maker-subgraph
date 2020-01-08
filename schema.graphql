@@ -25,6 +25,7 @@ type User @entity {
 	proxy: User
 	balance: BigInt!
 	chaiBalance: BigInt!
+	cdps: [CDP!] @derivedFrom(field: "owner")
 }
 
 type CDP @entity {
