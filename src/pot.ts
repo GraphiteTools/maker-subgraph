@@ -1,7 +1,7 @@
 import { BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
 import { DripCall, LogNote } from "../generated/Pot/Pot";
-import { Maker, User } from "../generated/schema";
+import { Maker, User, Change } from "../generated/schema";
 
 export function handleDrip(call: DripCall): void {
 	let chi = call.outputs.tmp;
@@ -12,9 +12,9 @@ export function handleDrip(call: DripCall): void {
 }
 
 export function handleFileEvent(event: LogNote): void {
-	let blockNumber = event.block.number;
-	let blockTime = event.block.timestamp;
+	let timestamp = event.block.timestamp;
 	let transactionHash = event.transaction.hash;
+	let logIndex = event.logIndex;
 	let data = event.params.data;
 
 	let dataString = data.toHexString();
@@ -27,13 +27,20 @@ export function handleFileEvent(event: LogNote): void {
 	let what = whatBytes.toString();
 	let govData = BigInt.fromSignedBytes(govDataBytes as Bytes);
 
-	if (what != 'dsr') {
-		return;
+	if (what == 'dsr') {
+		let maker = Maker.load('0');
+		maker.rate = govData;
+		maker.save();
 	}
 
-	let maker = Maker.load('0');
-	maker.rate = govData;
-	maker.save();
+	let changeId = transactionHash.toHexString() + '-' + logIndex.toHexString();
+	let change = new Change(changeId);
+	let param = 'Pot-' + what;
+	change.param = param;
+	change.value = govData;
+	change.timestamp = timestamp.toI32();
+	change.txHash = transactionHash;
+	change.save();
 }
 
 export function handleJoinEvent(event: LogNote): void {

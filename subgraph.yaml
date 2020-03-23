@@ -13,6 +13,7 @@ dataSources:
       apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
+        - Change
         - User
         - Proxy
       eventHandlers:
@@ -33,6 +34,7 @@ dataSources:
       apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
+        - Change
         - Pot
         - User
         - Proxy
@@ -64,10 +66,15 @@ dataSources:
       apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
+        - Change
         - Jug
-      callHandlers:
-        - function: file(bytes32,bytes32,uint256)
-          handler: handleDutyFile
+      eventHandlers:
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x29ae811400000000000000000000000000000000000000000000000000000000"
+          handler: handleFile
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x1a0b287e00000000000000000000000000000000000000000000000000000000"
+          handler: handleIlkFile
       abis:
         - name: Jug
           file: ./abis/jug.json
@@ -83,14 +90,18 @@ dataSources:
       apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
+        - Change
         - Vat
       eventHandlers:
         - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
           topic0: "0x3b66319500000000000000000000000000000000000000000000000000000000"
           handler: handleInitEvent
         - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
-          topic0: "0x1a0b287e00000000000000000000000000000000000000000000000000000000"
+          topic0: "0x29ae811400000000000000000000000000000000000000000000000000000000"
           handler: handleFileEvent
+        - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x1a0b287e00000000000000000000000000000000000000000000000000000000"
+          handler: handleIlkFileEvent
         - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
           topic0: "0x7cdd3fde00000000000000000000000000000000000000000000000000000000"
           handler: handleSlipEvent
@@ -117,24 +128,133 @@ dataSources:
           file: ./abis/vat.json
       file: ./src/vat.ts
   - kind: ethereum/contract
-    name: Spotter
+    name: Spot
     network: mainnet
     source:
       address: "0x65C79fcB50Ca1594B025960e539eD7A9a6D434A3"
-      abi: Spotter
+      abi: Spot
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
-        - Spotter
-      callHandlers:
-        - function: file(bytes32,bytes32,uint256)
+        - Change
+        - Spot
+      eventHandlers:
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x1a0b287e00000000000000000000000000000000000000000000000000000000"
           handler: handleFile
       abis:
-        - name: Spotter
-          file: ./abis/spotter.json
-      file: ./src/spotter.ts
+        - name: Spot
+          file: ./abis/spot.json
+      file: ./src/spot.ts
+  - kind: ethereum/contract
+    name: Vow
+    network: mainnet
+    source:
+      address: "0xA950524441892A31ebddF91d3cEEFa04Bf454466"
+      abi: Vow
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - Change
+        - Vow
+      eventHandlers:
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x29ae811400000000000000000000000000000000000000000000000000000000"
+          handler: handleFile
+      abis:
+        - name: Vow
+          file: ./abis/vow.json
+      file: ./src/vow.ts
+  - kind: ethereum/contract
+    name: Cat
+    network: mainnet
+    source:
+      address: "0x78F2c2AF65126834c51822F56Be0d7469D7A523E"
+      abi: Cat
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - Change
+        - Cat
+      eventHandlers:
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x1a0b287e00000000000000000000000000000000000000000000000000000000"
+          handler: handleIlkFile
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0xebecb39d00000000000000000000000000000000000000000000000000000000"
+          handler: handleFlipFile
+      abis:
+        - name: Cat
+          file: ./abis/cat.json
+      file: ./src/cat.ts
+  - kind: ethereum/contract
+    name: Flap
+    network: mainnet
+    source:
+      address: "0xdfE0fb1bE2a52CDBf8FB962D5701d7fd0902db9f"
+      abi: Flap
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - Change
+        - Flap
+      eventHandlers:
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x29ae811400000000000000000000000000000000000000000000000000000000"
+          handler: handleFile
+      abis:
+        - name: Flap
+          file: ./abis/flap.json
+      file: ./src/flap.ts
+  - kind: ethereum/contract
+    name: Flop
+    network: mainnet
+    source:
+      address: "0x4D95A049d5B0b7d32058cd3F2163015747522e99"
+      abi: Flop
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - Change
+        - Flop
+      eventHandlers:
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x29ae811400000000000000000000000000000000000000000000000000000000"
+          handler: handleFile
+      abis:
+        - name: Flop
+          file: ./abis/flop.json
+      file: ./src/flop.ts
+  - kind: ethereum/contract
+    name: Pause
+    network: mainnet
+    source:
+      address: "0xbE286431454714F511008713973d3B053A2d38f3"
+      abi: Pause
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - Change
+      eventHandlers:
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,uint256,bytes)
+          topic0: "0xe177246e00000000000000000000000000000000000000000000000000000000"
+          handler: handleSetDelay
+      abis:
+        - name: Pause
+          file: ./abis/pause.json
+      file: ./src/pause.ts
   - kind: ethereum/contract
     name: Chai
     network: mainnet
@@ -173,3 +293,23 @@ dataSources:
         - name: CdpManager
           file: ./abis/cdpManager.json
       file: ./src/cdpManager.ts
+templates:
+  - kind: ethereum/contract
+    name: Flip
+    network: mainnet
+    source:
+      abi: Flip
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      file: ./src/flip.ts
+      entities:
+        - Change
+      abis:
+        - name: Flip
+          file: ./abis/flip.json
+      eventHandlers:
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x29ae811400000000000000000000000000000000000000000000000000000000"
+          handler: handleFile

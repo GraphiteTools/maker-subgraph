@@ -1,7 +1,7 @@
 import { Address, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
 import { LogNote } from "../generated/Vat/Vat";
-import { Maker, Collateral, Vault } from "../generated/schema";
+import { Maker, Collateral, Vault, Change } from "../generated/schema";
 
 let ten = BigInt.fromI32(10);
 let ray = ten.pow(27);
@@ -44,6 +44,35 @@ export function handleInitEvent(event: LogNote): void {
 }
 
 export function handleFileEvent(event: LogNote): void {
+	let timestamp = event.block.timestamp;
+	let transactionHash = event.transaction.hash;
+	let logIndex = event.logIndex;
+	let data = event.params.data;
+
+	let dataString = data.toHexString();
+	let whatString = dataString.substr(10, 64);
+	let govDataString = dataString.substr(74, 64);
+
+	let whatBytes = ByteArray.fromHexString(whatString);
+	let govDataBytes = ByteArray.fromHexString(govDataString).reverse();
+
+	let what = whatBytes.toString();
+	let govData = BigInt.fromSignedBytes(govDataBytes as Bytes);
+
+	let changeId = transactionHash.toHexString() + '-' + logIndex.toHexString();
+	let change = new Change(changeId);
+	let param = 'Vat-' + what;
+	change.param = param;
+	change.value = govData;
+	change.timestamp = timestamp.toI32();
+	change.txHash = transactionHash;
+	change.save();
+}
+
+export function handleIlkFileEvent(event: LogNote): void {
+	let timestamp = event.block.timestamp;
+	let transactionHash = event.transaction.hash;
+	let logIndex = event.logIndex;
 	let data = event.params.data;
 
 	let dataString = data.toHexString();
@@ -59,13 +88,25 @@ export function handleFileEvent(event: LogNote): void {
 	let what = whatBytes.toString();
 	let govData = BigInt.fromSignedBytes(govDataBytes as Bytes);
 
-	if (what != 'line') {
+	if (what == 'line') {
+		let collateral = new Collateral(ilk);
+		collateral.ceiling = govData;
+		collateral.save();
+	}
+
+	if (what == 'spot') {
+		// Don't save spots; they're changed by oracle not by governance
 		return;
 	}
 
-	let collateral = new Collateral(ilk);
-	collateral.ceiling = govData;
-	collateral.save();
+	let changeId = transactionHash.toHexString() + '-' + logIndex.toHexString();
+	let change = new Change(changeId);
+	let param = 'Vat-' + ilk + '-' + what;
+	change.param = param;
+	change.value = govData;
+	change.timestamp = timestamp.toI32();
+	change.txHash = transactionHash;
+	change.save();
 }
 
 export function handleSlipEvent(event: LogNote): void {

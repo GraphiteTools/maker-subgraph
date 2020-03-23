@@ -41,3 +41,16 @@ type Vault @entity {
 	debt: BigInt!
 	supply: BigInt!
 }
+
+type Flip @entity {
+	id: ID!
+	collateral: Collateral!
+}
+
+type Change @entity {
+	id: ID!
+	param: String!
+	value: BigInt!
+	txHash: Bytes!
+	timestamp: Int!
+}
