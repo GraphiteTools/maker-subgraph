@@ -1,7 +1,8 @@
 import { BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
 import { LogNote } from "../../generated/Vow/Vow";
-import { Change } from "../../generated/schema";
+
+import { saveChange } from "../utils";
 
 export function handleFile(event: LogNote): void {
 	let timestamp = event.block.timestamp;
@@ -19,12 +20,6 @@ export function handleFile(event: LogNote): void {
 	let what = whatBytes.toString();
 	let govData = BigInt.fromSignedBytes(govDataBytes as Bytes);
 
-	let changeId = transactionHash.toHexString() + '-' + logIndex.toHexString();
-	let change = new Change(changeId);
 	let param = 'Vow-' + what;
-	change.param = param;
-	change.value = govData;
-	change.timestamp = timestamp.toI32();
-	change.txHash = transactionHash;
-	change.save();
+	saveChange(transactionHash, logIndex, timestamp, param, govData);
 }
