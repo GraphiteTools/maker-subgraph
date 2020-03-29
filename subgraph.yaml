@@ -236,6 +236,30 @@ dataSources:
           file: ./abis/flop.json
       file: ./src/flop.ts
   - kind: ethereum/contract
+    name: Chief
+    network: mainnet
+    source:
+      address: "0x9eF05f7F6deB616fd37aC3c959a2dDD25A54E4F5"
+      abi: Chief
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - Spell
+      eventHandlers:
+        - event: Etch(indexed bytes32)
+          handler: handleEtch
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,uint256,bytes)
+          topic0: "0x3c278bd500000000000000000000000000000000000000000000000000000000"
+          handler: handleLift
+      abis:
+        - name: Chief
+          file: ./abis/chief.json
+        - name: Spell
+          file: ./abis/spell.json
+      file: ./src/chief.ts
+  - kind: ethereum/contract
     name: Pause
     network: mainnet
     source:
@@ -251,6 +275,12 @@ dataSources:
         - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,uint256,bytes)
           topic0: "0xe177246e00000000000000000000000000000000000000000000000000000000"
           handler: handleSetDelay
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,uint256,bytes)
+          topic0: "0x46d2fbbb00000000000000000000000000000000000000000000000000000000"
+          handler: handlePlot
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,uint256,bytes)
+          topic0: "0x168ccd6700000000000000000000000000000000000000000000000000000000"
+          handler: handleExec
       abis:
         - name: Pause
           file: ./abis/pause.json
