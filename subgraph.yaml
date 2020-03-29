@@ -22,7 +22,7 @@ dataSources:
       abis:
         - name: ProxyFactory
           file: ./abis/factory.json
-      file: ./src/factory.ts
+      file: ./src/mappings/factory.ts
   - kind: ethereum/contract
     name: Pot
     network: mainnet
@@ -54,7 +54,7 @@ dataSources:
       abis:
         - name: Pot
           file: ./abis/pot.json
-      file: ./src/pot.ts
+      file: ./src/mappings/pot.ts
   - kind: ethereum/contract
     name: Jug
     network: mainnet
@@ -78,7 +78,7 @@ dataSources:
       abis:
         - name: Jug
           file: ./abis/jug.json
-      file: ./src/jug.ts
+      file: ./src/mappings/jug.ts
   - kind: ethereum/contract
     name: Vat
     network: mainnet
@@ -126,7 +126,7 @@ dataSources:
       abis:
         - name: Vat
           file: ./abis/vat.json
-      file: ./src/vat.ts
+      file: ./src/mappings/vat.ts
   - kind: ethereum/contract
     name: Spot
     network: mainnet
@@ -147,7 +147,7 @@ dataSources:
       abis:
         - name: Spot
           file: ./abis/spot.json
-      file: ./src/spot.ts
+      file: ./src/mappings/spot.ts
   - kind: ethereum/contract
     name: Vow
     network: mainnet
@@ -168,7 +168,7 @@ dataSources:
       abis:
         - name: Vow
           file: ./abis/vow.json
-      file: ./src/vow.ts
+      file: ./src/mappings/vow.ts
   - kind: ethereum/contract
     name: Cat
     network: mainnet
@@ -192,7 +192,7 @@ dataSources:
       abis:
         - name: Cat
           file: ./abis/cat.json
-      file: ./src/cat.ts
+      file: ./src/mappings/cat.ts
   - kind: ethereum/contract
     name: Flap
     network: mainnet
@@ -213,7 +213,7 @@ dataSources:
       abis:
         - name: Flap
           file: ./abis/flap.json
-      file: ./src/flap.ts
+      file: ./src/mappings/flap.ts
   - kind: ethereum/contract
     name: Flop
     network: mainnet
@@ -234,7 +234,7 @@ dataSources:
       abis:
         - name: Flop
           file: ./abis/flop.json
-      file: ./src/flop.ts
+      file: ./src/mappings/flop.ts
   - kind: ethereum/contract
     name: Pause
     network: mainnet
@@ -254,7 +254,7 @@ dataSources:
       abis:
         - name: Pause
           file: ./abis/pause.json
-      file: ./src/pause.ts
+      file: ./src/mappings/pause.ts
   - kind: ethereum/contract
     name: Chai
     network: mainnet
@@ -273,7 +273,7 @@ dataSources:
       abis:
         - name: Chai
           file: ./abis/chai.json
-      file: ./src/chai.ts
+      file: ./src/mappings/chai.ts
   - kind: ethereum/contract
     name: CdpManager
     network: mainnet
@@ -292,7 +292,7 @@ dataSources:
       abis:
         - name: CdpManager
           file: ./abis/cdpManager.json
-      file: ./src/cdpManager.ts
+      file: ./src/mappings/cdpManager.ts
 templates:
   - kind: ethereum/contract
     name: Flip
@@ -303,7 +303,7 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.3
       language: wasm/assemblyscript
-      file: ./src/flip.ts
+      file: ./src/mappings/flip.ts
       entities:
         - Change
       abis:

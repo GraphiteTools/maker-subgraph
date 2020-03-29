@@ -1,8 +1,8 @@
 import { Address, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
-import { Flip as FlipContract } from '../generated/templates'
-import { LogNote } from "../generated/Vow/Vow";
-import { Collateral, Flip, Change } from "../generated/schema";
+import { Flip as FlipContract } from '../../generated/templates'
+import { LogNote } from "../../generated/Vow/Vow";
+import { Collateral, Flip, Change } from "../../generated/schema";
 
 export function handleIlkFile(event: LogNote): void {
 	let timestamp = event.block.timestamp;

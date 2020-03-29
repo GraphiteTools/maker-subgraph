@@ -1,7 +1,7 @@
 import { BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
-import { LogNote } from "../generated/Jug/Jug";
-import { Maker, Collateral, Change } from "../generated/schema";
+import { LogNote } from "../../generated/Jug/Jug";
+import { Maker, Collateral, Change } from "../../generated/schema";
 
 export function handleFile(event: LogNote): void {
 	let timestamp = event.block.timestamp;

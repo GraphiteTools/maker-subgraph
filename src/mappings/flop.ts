@@ -1,10 +1,9 @@
 import { BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
-import { LogNote } from "../generated/templates/Flip/Flip";
-import { Flip, Change } from "../generated/schema";
+import { LogNote } from "../../generated/Flop/Flop";
+import { Change } from "../../generated/schema";
 
 export function handleFile(event: LogNote): void {
-	let address = event.address;
 	let timestamp = event.block.timestamp;
 	let transactionHash = event.transaction.hash;
 	let logIndex = event.logIndex;
@@ -20,12 +19,9 @@ export function handleFile(event: LogNote): void {
 	let what = whatBytes.toString();
 	let govData = BigInt.fromSignedBytes(govDataBytes as Bytes);
 
-	let flip = Flip.load(address.toHexString());
-	let collateral = flip.collateral;
-
 	let changeId = transactionHash.toHexString() + '-' + logIndex.toHexString();
 	let change = new Change(changeId);
-	let param = 'Flip-' + collateral + '-' + what;
+	let param = 'Flop-' + what;
 	change.param = param;
 	change.value = govData;
 	change.timestamp = timestamp.toI32();

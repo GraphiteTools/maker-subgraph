@@ -1,7 +1,7 @@
 import { BigInt, Address } from "@graphprotocol/graph-ts";
 
-import { Transfer } from "../generated/Chai/Chai";
-import { Maker, User } from "../generated/schema";
+import { Transfer } from "../../generated/Chai/Chai";
+import { Maker, User } from "../../generated/schema";
 
 let zeroAddress = Address.fromString('0x0000000000000000000000000000000000000000');
 

@@ -1,7 +1,7 @@
 import { BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
-import { DripCall, LogNote } from "../generated/Pot/Pot";
-import { Maker, User, Change } from "../generated/schema";
+import { DripCall, LogNote } from "../../generated/Pot/Pot";
+import { Maker, User, Change } from "../../generated/schema";
 
 export function handleDrip(call: DripCall): void {
 	let chi = call.outputs.tmp;

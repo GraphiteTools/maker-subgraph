@@ -1,7 +1,7 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 
-import { NewCdp, CdpManager } from "../generated/CdpManager/CdpManager";
-import { Maker, CDP, Vault } from "../generated/schema";
+import { NewCdp, CdpManager } from "../../generated/CdpManager/CdpManager";
+import { Maker, CDP, Vault } from "../../generated/schema";
 
 export function handleNewCdp(event: NewCdp): void {
 	let address = event.address;

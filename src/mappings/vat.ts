@@ -1,7 +1,7 @@
 import { Address, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
-import { LogNote } from "../generated/Vat/Vat";
-import { Maker, Collateral, Vault, Change } from "../generated/schema";
+import { LogNote } from "../../generated/Vat/Vat";
+import { Maker, Collateral, Vault, Change } from "../../generated/schema";
 
 let ten = BigInt.fromI32(10);
 let ray = ten.pow(27);

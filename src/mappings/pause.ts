@@ -1,7 +1,7 @@
 import { BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
-import { LogNote } from "../generated/Pause/Pause";
-import { Change } from "../generated/schema";
+import { LogNote } from "../../generated/Pause/Pause";
+import { Change } from "../../generated/schema";
 
 export function handleSetDelay(event: LogNote): void {
 	let address = event.address;

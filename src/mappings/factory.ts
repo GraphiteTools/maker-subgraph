@@ -1,7 +1,7 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 
-import { Created } from "../generated/ProxyFactory/ProxyFactory";
-import { User } from "../generated/schema";
+import { Created } from "../../generated/ProxyFactory/ProxyFactory";
+import { User } from "../../generated/schema";
 
 export function handleCreated(event: Created): void {
 	let owner = event.params.owner;
