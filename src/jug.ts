@@ -1,9 +1,7 @@
 import { BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
 import { LogNote } from "../generated/Jug/Jug";
-import { Maker, Collateral } from "../generated/schema";
-
-import { saveChange } from "./utils";
+import { Maker, Collateral, Change } from "../generated/schema";
 
 export function handleFile(event: LogNote): void {
 	let timestamp = event.block.timestamp;
@@ -21,8 +19,14 @@ export function handleFile(event: LogNote): void {
 	let what = whatBytes.toString();
 	let govData = BigInt.fromSignedBytes(govDataBytes as Bytes);
 
-	let parameter = 'Jug-' + what;
-	saveChange(transactionHash, logIndex, parameter, govData);
+	let changeId = transactionHash.toHexString() + '-' + logIndex.toHexString();
+	let change = new Change(changeId);
+	let param = 'Jug-' + what;
+	change.param = param;
+	change.value = govData;
+	change.timestamp = timestamp.toI32();
+	change.txHash = transactionHash;
+	change.save();
 }
 
 export function handleIlkFile(event: LogNote): void {
@@ -50,6 +54,12 @@ export function handleIlkFile(event: LogNote): void {
 		collateral.save();
 	}
 
-	let parameter = 'Jug-' + ilk + '-' + what;
-	saveChange(transactionHash, logIndex, parameter, govData);
+	let changeId = transactionHash.toHexString() + '-' + logIndex.toHexString();
+	let change = new Change(changeId);
+	let param = 'Jug-' + ilk + '-' + what;
+	change.param = param;
+	change.value = govData;
+	change.timestamp = timestamp.toI32();
+	change.txHash = transactionHash;
+	change.save();
 }

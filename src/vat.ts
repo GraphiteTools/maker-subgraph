@@ -1,9 +1,7 @@
 import { Address, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
 import { LogNote } from "../generated/Vat/Vat";
-import { Maker, Collateral, Vault } from "../generated/schema";
-
-import { saveChange } from "./utils";
+import { Maker, Collateral, Vault, Change } from "../generated/schema";
 
 let ten = BigInt.fromI32(10);
 let ray = ten.pow(27);
@@ -61,8 +59,14 @@ export function handleFileEvent(event: LogNote): void {
 	let what = whatBytes.toString();
 	let govData = BigInt.fromSignedBytes(govDataBytes as Bytes);
 
-	let parameter = 'Vat-' + what;
-	saveChange(transactionHash, logIndex, parameter, govData);
+	let changeId = transactionHash.toHexString() + '-' + logIndex.toHexString();
+	let change = new Change(changeId);
+	let param = 'Vat-' + what;
+	change.param = param;
+	change.value = govData;
+	change.timestamp = timestamp.toI32();
+	change.txHash = transactionHash;
+	change.save();
 }
 
 export function handleIlkFileEvent(event: LogNote): void {
@@ -95,8 +99,14 @@ export function handleIlkFileEvent(event: LogNote): void {
 		return;
 	}
 
-	let parameter = 'Vat-' + ilk + '-' + what;
-	saveChange(transactionHash, logIndex, parameter, govData);
+	let changeId = transactionHash.toHexString() + '-' + logIndex.toHexString();
+	let change = new Change(changeId);
+	let param = 'Vat-' + ilk + '-' + what;
+	change.param = param;
+	change.value = govData;
+	change.timestamp = timestamp.toI32();
+	change.txHash = transactionHash;
+	change.save();
 }
 
 export function handleSlipEvent(event: LogNote): void {

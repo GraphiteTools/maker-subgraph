@@ -7,7 +7,6 @@ type Maker @entity {
 	debt: BigInt!
 	supply: BigInt!
 	chaiSupply: BigInt!
-	activeSpell: Spell!
 }
 
 type Collateral @entity {
@@ -48,22 +47,10 @@ type Flip @entity {
 	collateral: Collateral!
 }
 
-type Spell @entity {
-	id: ID!
-	description: String
-	changes: [Change!] @derivedFrom(field: "spell")
-	timelocked: Int
-	executed: Int
-}
-
-type SpellAction @entity {
-	id: ID!
-	spell: Spell!
-}
-
 type Change @entity {
-	id: ID! 
-	spell: Spell!
-	parameter: String!
+	id: ID!
+	param: String!
 	value: BigInt!
+	txHash: Bytes!
+	timestamp: Int!
 }

@@ -1,9 +1,7 @@
 import { BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
 import { LogNote } from "../generated/Spot/Spot";
-import { Maker, Collateral } from "../generated/schema";
-
-import { saveChange } from "./utils";
+import { Maker, Collateral, Change } from "../generated/schema";
 
 export function handleFile(event: LogNote): void {
 	let timestamp = event.block.timestamp;
@@ -30,6 +28,12 @@ export function handleFile(event: LogNote): void {
 		collateral.save();
 	}
 
-	let parameter = 'Spot-' + ilk + '-' + what;
-	saveChange(transactionHash, logIndex, parameter, govData);
+	let changeId = transactionHash.toHexString() + '-' + logIndex.toHexString();
+	let change = new Change(changeId);
+	let param = 'Spot-' + ilk + '-' + what;
+	change.param = param;
+	change.value = govData;
+	change.timestamp = timestamp.toI32();
+	change.txHash = transactionHash;
+	change.save();
 }

@@ -1,9 +1,7 @@
 import { BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
 import { DripCall, LogNote } from "../generated/Pot/Pot";
-import { Maker, User } from "../generated/schema";
-
-import { saveChange } from "./utils";
+import { Maker, User, Change } from "../generated/schema";
 
 export function handleDrip(call: DripCall): void {
 	let chi = call.outputs.tmp;
@@ -35,8 +33,14 @@ export function handleFileEvent(event: LogNote): void {
 		maker.save();
 	}
 
-	let parameter = 'Pot-' + what;
-	saveChange(transactionHash, logIndex, parameter, govData);
+	let changeId = transactionHash.toHexString() + '-' + logIndex.toHexString();
+	let change = new Change(changeId);
+	let param = 'Pot-' + what;
+	change.param = param;
+	change.value = govData;
+	change.timestamp = timestamp.toI32();
+	change.txHash = transactionHash;
+	change.save();
 }
 
 export function handleJoinEvent(event: LogNote): void {

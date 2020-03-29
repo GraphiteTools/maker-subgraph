@@ -1,9 +1,7 @@
 import { BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
 import { LogNote } from "../generated/Flap/Flap";
-import { Flip } from "../generated/schema";
-
-import { saveChange } from "./utils";
+import { Flip, Change } from "../generated/schema";
 
 export function handleFile(event: LogNote): void {
 	let address = event.address;
@@ -22,6 +20,12 @@ export function handleFile(event: LogNote): void {
 	let what = whatBytes.toString();
 	let govData = BigInt.fromSignedBytes(govDataBytes as Bytes);
 
-	let parameter = 'Flap-' + what;
-	saveChange(transactionHash, logIndex, parameter, govData);
+	let changeId = transactionHash.toHexString() + '-' + logIndex.toHexString();
+	let change = new Change(changeId);
+	let param = 'Flap-' + what;
+	change.param = param;
+	change.value = govData;
+	change.timestamp = timestamp.toI32();
+	change.txHash = transactionHash;
+	change.save();
 }

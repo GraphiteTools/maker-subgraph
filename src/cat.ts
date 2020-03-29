@@ -2,9 +2,7 @@ import { Address, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 
 import { Flip as FlipContract } from '../generated/templates'
 import { LogNote } from "../generated/Vow/Vow";
-import { Collateral, Flip } from "../generated/schema";
-
-import { saveChange } from "./utils";
+import { Collateral, Flip, Change } from "../generated/schema";
 
 export function handleIlkFile(event: LogNote): void {
 	let timestamp = event.block.timestamp;
@@ -25,8 +23,14 @@ export function handleIlkFile(event: LogNote): void {
 	let what = whatBytes.toString();
 	let govData = BigInt.fromSignedBytes(govDataBytes as Bytes);
 
-	let parameter = 'Cat-' + ilk + '-' + what;
-	saveChange(transactionHash, logIndex, parameter, govData);
+	let changeId = transactionHash.toHexString() + '-' + logIndex.toHexString();
+	let change = new Change(changeId);
+	let param = 'Cat-' + ilk + '-' + what;
+	change.param = param;
+	change.value = govData;
+	change.timestamp = timestamp.toI32();
+	change.txHash = transactionHash;
+	change.save();
 }
 
 export function handleFlipFile(event: LogNote): void {
