@@ -54,3 +54,8 @@ type Change @entity {
 	txHash: Bytes!
 	timestamp: Int!
 }
+
+type Authority @entity {
+	id: ID!
+	owners: [Bytes!]
+}

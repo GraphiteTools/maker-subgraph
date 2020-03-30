@@ -3,7 +3,35 @@ import { BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 import { LogNote } from "../../generated/Flap/Flap";
 import { Flip } from "../../generated/schema";
 
-import { saveChange } from "../utils";
+import { saveChange, addAuthority, removeAuthority } from "../utils";
+
+export function handleRely(event: LogNote): void {
+	let address = event.address;
+	let timestamp = event.block.timestamp;
+	let transactionHash = event.transaction.hash;
+	let logIndex = event.logIndex;
+	let data = event.params.data;
+
+	let dataString = data.toHexString();
+	let guyString = dataString.substr(10 + 24, 40);
+
+	let guyBytes = ByteArray.fromHexString(guyString) as Bytes;
+	addAuthority(address, guyBytes);
+}
+
+export function handleDeny(event: LogNote): void {
+	let address = event.address;
+	let timestamp = event.block.timestamp;
+	let transactionHash = event.transaction.hash;
+	let logIndex = event.logIndex;
+	let data = event.params.data;
+
+	let dataString = data.toHexString();
+	let guyString = dataString.substr(10 + 24, 40);
+
+	let guyBytes = ByteArray.fromHexString(guyString) as Bytes;
+	removeAuthority(address, guyBytes);
+}
 
 export function handleFile(event: LogNote): void {
 	let address = event.address;

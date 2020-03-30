@@ -3,7 +3,7 @@ import { Address, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 import { LogNote } from "../../generated/Vat/Vat";
 import { Maker, Collateral, Vault } from "../../generated/schema";
 
-import { saveChange } from "../utils";
+import { saveChange, addAuthority, removeAuthority } from "../utils";
 
 let ten = BigInt.fromI32(10);
 let ray = ten.pow(27);
@@ -43,6 +43,34 @@ export function handleInitEvent(event: LogNote): void {
 	collateral.supply = new BigInt(0);
 	collateral.debt = new BigInt(0);
 	collateral.save();
+}
+
+export function handleRelyEvent(event: LogNote): void {
+	let address = event.address;
+	let timestamp = event.block.timestamp;
+	let transactionHash = event.transaction.hash;
+	let logIndex = event.logIndex;
+	let data = event.params.data;
+
+	let dataString = data.toHexString();
+	let guyString = dataString.substr(10 + 24, 40);
+
+	let guyBytes = ByteArray.fromHexString(guyString) as Bytes;
+	addAuthority(address, guyBytes);
+}
+
+export function handleDenyEvent(event: LogNote): void {
+	let address = event.address;
+	let timestamp = event.block.timestamp;
+	let transactionHash = event.transaction.hash;
+	let logIndex = event.logIndex;
+	let data = event.params.data;
+
+	let dataString = data.toHexString();
+	let guyString = dataString.substr(10 + 24, 40);
+
+	let guyBytes = ByteArray.fromHexString(guyString) as Bytes;
+	removeAuthority(address, guyBytes);
 }
 
 export function handleFileEvent(event: LogNote): void {

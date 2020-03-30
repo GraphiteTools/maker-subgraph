@@ -43,6 +43,12 @@ dataSources:
           handler: handleDrip
       eventHandlers:
         - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x65fae35e00000000000000000000000000000000000000000000000000000000"
+          handler: handleRelyEvent
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x9c52a7f100000000000000000000000000000000000000000000000000000000"
+          handler: handleDenyEvent
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
           topic0: "0x29ae811400000000000000000000000000000000000000000000000000000000"
           handler: handleFileEvent
         - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
@@ -70,6 +76,12 @@ dataSources:
         - Jug
       eventHandlers:
         - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x65fae35e00000000000000000000000000000000000000000000000000000000"
+          handler: handleRely
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x9c52a7f100000000000000000000000000000000000000000000000000000000"
+          handler: handleDeny
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
           topic0: "0x29ae811400000000000000000000000000000000000000000000000000000000"
           handler: handleFile
         - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
@@ -96,6 +108,12 @@ dataSources:
         - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
           topic0: "0x3b66319500000000000000000000000000000000000000000000000000000000"
           handler: handleInitEvent
+        - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x65fae35e00000000000000000000000000000000000000000000000000000000"
+          handler: handleRelyEvent
+        - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x9c52a7f100000000000000000000000000000000000000000000000000000000"
+          handler: handleDenyEvent
         - event: LogNote(indexed bytes4,indexed bytes32,indexed bytes32,indexed bytes32,bytes)
           topic0: "0x29ae811400000000000000000000000000000000000000000000000000000000"
           handler: handleFileEvent
@@ -142,6 +160,12 @@ dataSources:
         - Spot
       eventHandlers:
         - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x65fae35e00000000000000000000000000000000000000000000000000000000"
+          handler: handleRely
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x9c52a7f100000000000000000000000000000000000000000000000000000000"
+          handler: handleDeny
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
           topic0: "0x1a0b287e00000000000000000000000000000000000000000000000000000000"
           handler: handleFile
       abis:
@@ -163,6 +187,12 @@ dataSources:
         - Vow
       eventHandlers:
         - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x65fae35e00000000000000000000000000000000000000000000000000000000"
+          handler: handleRely
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x9c52a7f100000000000000000000000000000000000000000000000000000000"
+          handler: handleDeny
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
           topic0: "0x29ae811400000000000000000000000000000000000000000000000000000000"
           handler: handleFile
       abis:
@@ -183,6 +213,12 @@ dataSources:
         - Change
         - Cat
       eventHandlers:
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x65fae35e00000000000000000000000000000000000000000000000000000000"
+          handler: handleRely
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x9c52a7f100000000000000000000000000000000000000000000000000000000"
+          handler: handleDeny
         - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
           topic0: "0x1a0b287e00000000000000000000000000000000000000000000000000000000"
           handler: handleIlkFile
@@ -208,6 +244,12 @@ dataSources:
         - Flap
       eventHandlers:
         - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x65fae35e00000000000000000000000000000000000000000000000000000000"
+          handler: handleRely
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x9c52a7f100000000000000000000000000000000000000000000000000000000"
+          handler: handleDeny
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
           topic0: "0x29ae811400000000000000000000000000000000000000000000000000000000"
           handler: handleFile
       abis:
@@ -228,6 +270,12 @@ dataSources:
         - Change
         - Flop
       eventHandlers:
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x65fae35e00000000000000000000000000000000000000000000000000000000"
+          handler: handleRely
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x9c52a7f100000000000000000000000000000000000000000000000000000000"
+          handler: handleDeny
         - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
           topic0: "0x29ae811400000000000000000000000000000000000000000000000000000000"
           handler: handleFile
@@ -310,6 +358,12 @@ templates:
         - name: Flip
           file: ./abis/flip.json
       eventHandlers:
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x65fae35e00000000000000000000000000000000000000000000000000000000"
+          handler: handleRely
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0x9c52a7f100000000000000000000000000000000000000000000000000000000"
+          handler: handleDeny
         - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
           topic0: "0x29ae811400000000000000000000000000000000000000000000000000000000"
           handler: handleFile
