@@ -10,7 +10,7 @@ dataSources:
       abi: ProxyFactory
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - Change
@@ -31,7 +31,7 @@ dataSources:
       abi: Pot
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - Change
@@ -69,7 +69,7 @@ dataSources:
       abi: Jug
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - Change
@@ -99,7 +99,7 @@ dataSources:
       abi: Vat
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - Change
@@ -153,7 +153,7 @@ dataSources:
       abi: Spot
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - Change
@@ -180,7 +180,7 @@ dataSources:
       abi: Vow
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - Change
@@ -207,7 +207,7 @@ dataSources:
       abi: Cat
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - Change
@@ -237,7 +237,7 @@ dataSources:
       abi: Flap
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - Change
@@ -264,7 +264,7 @@ dataSources:
       abi: Flop
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - Change
@@ -291,7 +291,7 @@ dataSources:
       abi: Pause
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - Change
@@ -311,7 +311,7 @@ dataSources:
       abi: Chai
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - User
@@ -330,7 +330,7 @@ dataSources:
       abi: CdpManager
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - User
@@ -349,7 +349,7 @@ templates:
       abi: Flip
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       file: ./src/mappings/flip.ts
       entities:
