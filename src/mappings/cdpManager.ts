@@ -13,7 +13,7 @@ export function handleNewCdp(event: NewCdp): void {
 	let ilkBytes = manager.ilks(number);
 
 	let maker = Maker.load('0');
-	maker.vaultCount = number.toI32();
+	maker.cdpCount = number.toI32();
 	maker.save()
 
 	let ilk = ilkBytes.toString();
