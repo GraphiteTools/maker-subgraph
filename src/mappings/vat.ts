@@ -177,8 +177,8 @@ export function handleFrobEvent(event: LogNote): void {
 
 	let vault = Vault.load(user.toHexString());
 	if (!vault) {
+		// Init CDP-free vault
 		vault = new Vault(user.toHexString());
-		vault.cdp = '0';
 		vault.collateral = ilk.toString();
 		vault.supply = new BigInt(0);
 		vault.debt = new BigInt(0);
