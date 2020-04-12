@@ -25,22 +25,22 @@ export function handleInitEvent(event: LogNote): void {
 		let maker = Maker.load('0');
 		if (!maker) {
 			maker = new Maker('0');
-			maker.index = new BigInt(0);
-			maker.rate = new BigInt(0);
-			maker.supply = new BigInt(0);
+			maker.index = BigInt.fromI32(0);
+			maker.rate = BigInt.fromI32(0);
+			maker.supply = BigInt.fromI32(0);
 			maker.cdpCount = 0;
 			maker.collaterals = [];
-			maker.debt = new BigInt(0);
+			maker.debt = BigInt.fromI32(0);
 		}
 		maker.collaterals.push(ilk);
 		maker.save();
 	}
 	collateral.index = ray;
-	collateral.rate = new BigInt(0);
-	collateral.minRatio = new BigInt(0);
-	collateral.ceiling = new BigInt(0);
-	collateral.supply = new BigInt(0);
-	collateral.debt = new BigInt(0);
+	collateral.rate = BigInt.fromI32(0);
+	collateral.minRatio = BigInt.fromI32(0);
+	collateral.ceiling = BigInt.fromI32(0);
+	collateral.supply = BigInt.fromI32(0);
+	collateral.debt = BigInt.fromI32(0);
 	collateral.save();
 }
 
@@ -179,8 +179,8 @@ export function handleFrobEvent(event: LogNote): void {
 		// Init CDP-free vault
 		vault = new Vault(user.toHexString());
 		vault.collateral = ilk.toString();
-		vault.supply = new BigInt(0);
-		vault.debt = new BigInt(0);
+		vault.supply = BigInt.fromI32(0);
+		vault.debt = BigInt.fromI32(0);
 	}
 	vault.supply += dink;
 	vault.debt += dart;

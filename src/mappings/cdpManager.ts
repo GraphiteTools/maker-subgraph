@@ -31,8 +31,8 @@ export function handleNewCdp(event: NewCdp): void {
 	let vault = new Vault(handler.toHexString());
 	vault.cdp = number.toString();
 	vault.collateral = ilk;
-	vault.supply = new BigInt(0);
-	vault.debt = new BigInt(0);
+	vault.supply = BigInt.fromI32(0);
+	vault.debt = BigInt.fromI32(0);
 	vault.save();
 }
 

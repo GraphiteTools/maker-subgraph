@@ -10,13 +10,13 @@ export function handleCreated(event: Created): void {
 	let user = User.load(owner.toHexString());
 	if (!user) {
 		user = new User(owner.toHexString());
-		user.balance = new BigInt(0);
+		user.balance = BigInt.fromI32(0);
 	}
 	user.proxy = proxyAddress.toHexString();
 	user.save();
 
 	let proxyUser = new User(proxyAddress.toHexString());
 	proxyUser.owner = owner.toHexString();
-	proxyUser.balance = new BigInt(0);
+	proxyUser.balance = BigInt.fromI32(0);
 	proxyUser.save();
 }
