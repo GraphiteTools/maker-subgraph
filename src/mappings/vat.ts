@@ -29,7 +29,6 @@ export function handleInitEvent(event: LogNote): void {
 			maker.rate = new BigInt(0);
 			maker.supply = new BigInt(0);
 			maker.vaultCount = 0;
-			maker.chaiSupply = new BigInt(0);
 			maker.collaterals = [];
 			maker.debt = new BigInt(0);
 		}

@@ -89,7 +89,6 @@ export function handleJoinEvent(event: LogNote): void {
 	if (!user) {
 		user = new User(from.toHexString());
 		user.balance = new BigInt(0);
-		user.chaiBalance = new BigInt(0);
 	}
 	user.balance += wad;
 	user.save();
@@ -117,7 +116,6 @@ export function handleExitEvent(event: LogNote): void {
 	if (!user) {
 		user = new User(from.toHexString());
 		user.balance = new BigInt(0);
-		user.chaiBalance = new BigInt(0);
 	}
 	user.balance -= wad;
 	user.save();

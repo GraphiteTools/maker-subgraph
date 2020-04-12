@@ -6,7 +6,6 @@ type Maker @entity {
 	vaultCount: Int!
 	debt: BigInt!
 	supply: BigInt!
-	chaiSupply: BigInt!
 }
 
 type Collateral @entity {
@@ -24,7 +23,6 @@ type User @entity {
 	owner: User
 	proxy: User
 	balance: BigInt!
-	chaiBalance: BigInt!
 	cdps: [CDP!] @derivedFrom(field: "owner")
 }
 
