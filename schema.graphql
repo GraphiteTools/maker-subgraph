@@ -36,7 +36,7 @@ type CDP @entity {
 
 type Vault @entity {
 	id: ID!
-	cdp: CDP!
+	cdp: CDP
 	collateral: Collateral!
 	debt: BigInt!
 	supply: BigInt!
