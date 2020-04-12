@@ -318,6 +318,9 @@ dataSources:
       eventHandlers:
         - event: NewCdp(indexed address,indexed address,indexed uint256)
           handler: handleNewCdp
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          topic0: "0xfcafcc6800000000000000000000000000000000000000000000000000000000"
+          handler: handleGive
       abis:
         - name: CdpManager
           file: ./abis/cdpManager.json

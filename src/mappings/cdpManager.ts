@@ -1,6 +1,6 @@
-import { BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigInt } from "@graphprotocol/graph-ts";
 
-import { NewCdp, CdpManager } from "../../generated/CdpManager/CdpManager";
+import { LogNote, NewCdp, CdpManager } from "../../generated/CdpManager/CdpManager";
 import { Maker, CDP, Vault, Collateral } from "../../generated/schema";
 
 export function handleNewCdp(event: NewCdp): void {
@@ -34,4 +34,16 @@ export function handleNewCdp(event: NewCdp): void {
 	vault.supply = new BigInt(0);
 	vault.debt = new BigInt(0);
 	vault.save();
+}
+
+export function handleGive(event: LogNote): void {
+	let cdpNumberBytes = event.params.arg1;
+	let ownerBytes = event.params.arg2;
+
+	let cdpNumber = BigInt.fromSignedBytes(cdpNumberBytes);
+	let owner = ownerBytes.toHexString();
+
+	let cdp = new CDP(cdpNumber.toString());
+	cdp.owner = owner;
+	cdp.save()
 }
