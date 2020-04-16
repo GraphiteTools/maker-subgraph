@@ -1,6 +1,12 @@
 {
   "name": "maker-subgraph",
-  "license": "UNLICENSED",
+  "version": "1.0.0",
+  "description": "Maker Subgraph",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/GraphiteTools/maker-subgraph.git"
+  },
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
