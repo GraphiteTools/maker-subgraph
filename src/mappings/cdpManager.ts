@@ -1,4 +1,4 @@
-import { Address, BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts";
 
 import { LogNote, NewCdp, CdpManager } from "../../generated/CdpManager/CdpManager";
 import { Maker, CDP, Vault, Collateral } from "../../generated/schema";
@@ -40,7 +40,7 @@ export function handleGive(event: LogNote): void {
 	let cdpNumberBytes = event.params.arg1;
 	let rawOwnerBytes = event.params.arg2;
 
-	let cdpNumber = BigInt.fromSignedBytes(cdpNumberBytes);
+	let cdpNumber = BigInt.fromSignedBytes(cdpNumberBytes.reverse() as Bytes);
 	let rawOwner = rawOwnerBytes.toHexString();
 	let owner = '0x' + rawOwner.substr(26, 40);
 
