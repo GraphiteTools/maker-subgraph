@@ -38,10 +38,11 @@ export function handleNewCdp(event: NewCdp): void {
 
 export function handleGive(event: LogNote): void {
 	let cdpNumberBytes = event.params.arg1;
-	let ownerBytes = event.params.arg2;
+	let rawOwnerBytes = event.params.arg2;
 
 	let cdpNumber = BigInt.fromSignedBytes(cdpNumberBytes);
-	let owner = ownerBytes.toHexString();
+	let rawOwner = rawOwnerBytes.toHexString();
+	let owner = '0x' + rawOwner.substr(26, 40);
 
 	let cdp = new CDP(cdpNumber.toString());
 	cdp.owner = owner;
