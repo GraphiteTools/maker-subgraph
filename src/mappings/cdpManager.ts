@@ -44,7 +44,7 @@ export function handleGive(event: LogNote): void {
 	let rawOwner = rawOwnerBytes.toHexString();
 	let owner = '0x' + rawOwner.substr(26, 40);
 
-	let cdp = new CDP(cdpNumber.toString());
+	let cdp = CDP.load(cdpNumber.toString());
 	cdp.owner = owner;
 	cdp.save()
 }
