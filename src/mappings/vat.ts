@@ -213,8 +213,8 @@ export function handleForkEvent(event: LogNote): void {
 	srcVault.save();
 
 	let dstVault = Vault.load(dst.toHexString());
-	dstVault.supply -= dink;
-	dstVault.debt -= dart;
+	dstVault.supply += dink;
+	dstVault.debt += dart;
 	dstVault.save();
 }
 
