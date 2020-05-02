@@ -170,7 +170,7 @@ export function handleFrobEvent(event: LogNote): void {
 	maker.debt += dtab;
 	maker.save();
 
-	collateral.supply -= dink;
+	collateral.supply += dink;
 	collateral.debt += dart;
 	collateral.save();
 
@@ -237,7 +237,7 @@ export function handleGrabEvent(event: LogNote): void {
 	let dart = BigInt.fromSignedBytes(dartBytes as Bytes);
 
 	let collateral = Collateral.load(ilk);
-	collateral.supply -= dink;
+	collateral.supply += dink;
 	collateral.debt += dart;
 	collateral.save();
 
