@@ -194,8 +194,8 @@ export function handleForkEvent(event: LogNote): void {
 	let ilkString = dataString.substr(10, 64);
 	let srcString = dataString.substr(98, 40);
 	let dstString = dataString.substr(162, 40);
-	let dinkString = dataString.substr(226, 64);
-	let dartString = dataString.substr(290, 64);
+	let dinkString = dataString.substr(202, 64);
+	let dartString = dataString.substr(266, 64);
 
 	let ilkBytes = ByteArray.fromHexString(ilkString);
 	let dinkBytes = ByteArray.fromHexString(dinkString).reverse();
