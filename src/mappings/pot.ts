@@ -3,7 +3,7 @@ import { BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 import { DripCall, LogNote } from "../../generated/Pot/Pot";
 import { Maker, User } from "../../generated/schema";
 
-import { saveChange, addAuthority, removeAuthority } from "../utils";
+import { saveChange } from "../utils";
 
 export function handleDrip(call: DripCall): void {
 	let chi = call.outputs.tmp;
@@ -11,34 +11,6 @@ export function handleDrip(call: DripCall): void {
 	let maker = Maker.load('0');
 	maker.index = chi;
 	maker.save();
-}
-
-export function handleRelyEvent(event: LogNote): void {
-	let address = event.address;
-	let timestamp = event.block.timestamp;
-	let transactionHash = event.transaction.hash;
-	let logIndex = event.logIndex;
-	let data = event.params.data;
-
-	let dataString = data.toHexString();
-	let guyString = dataString.substr(10 + 24, 40);
-
-	let guyBytes = ByteArray.fromHexString(guyString) as Bytes;
-	addAuthority(address, guyBytes);
-}
-
-export function handleDenyEvent(event: LogNote): void {
-	let address = event.address;
-	let timestamp = event.block.timestamp;
-	let transactionHash = event.transaction.hash;
-	let logIndex = event.logIndex;
-	let data = event.params.data;
-
-	let dataString = data.toHexString();
-	let guyString = dataString.substr(10 + 24, 40);
-
-	let guyBytes = ByteArray.fromHexString(guyString) as Bytes;
-	removeAuthority(address, guyBytes);
 }
 
 export function handleFileEvent(event: LogNote): void {
